@@ -4,9 +4,6 @@ Test object marking.
 
 from unittest import TestCase
 
-from six import PY2
-from six import PY3
-
 from chromalog.mark import Mark
 
 from .common import repeat_for_integral_values
@@ -16,10 +13,6 @@ from .common import repeat_for_values
 class MarkTests(TestCase):
     @repeat_for_values()
     def test_string_rendering_of_marked(self, _, value):
-        # Python2 non-unicode string want to use the 'ascii' encoding for this
-        # conversion, which cannot work.
-        if PY2 and isinstance(value, unicode):
-            return
 
         self.assertEqual(f"{value}", "{0}".format(Mark(value, "a")))
 
@@ -35,9 +28,7 @@ class MarkTests(TestCase):
     def test_hexadecimal_int_rendering_of_marked(self, _, value):
         # Apparently in Python 3, %x expects a real integer. If you know how to
         # make it work with a Marked integer, please let me know !
-        if PY3:
-            return
-
+        # TODO: fails on py3?
         self.assertEqual("%x" % value, "%x" % Mark(value, "a"))
 
     @repeat_for_integral_values()
@@ -101,9 +92,8 @@ class MarkTests(TestCase):
         self.assertEqual([true_color_tag], helper(True).color_tag)
         self.assertEqual([false_color_tag], helper(False).color_tag)
 
-    def test_explicit_unicode_in_python3(self):
-        if PY3:
-            self.assertEqual(
-                "test",
-                Mark("test", "foo").__unicode__(),
-            )
+    def test_explicit_unicode(self):
+        self.assertEqual(
+            "test",
+            Mark("test", "foo").__unicode__(),
+        )

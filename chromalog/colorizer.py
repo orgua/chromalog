@@ -5,11 +5,6 @@ Colorizing functions and structures.
 from colorama import Back
 from colorama import Fore
 from colorama import Style
-from six import PY3
-from six import string_types
-
-# Hack to define unicode in Python 3 and reach 100% coverage.
-unicode = str if PY3 else unicode
 
 
 class ColorizableMixin:
@@ -66,7 +61,7 @@ class ColorizedObject:
         Gives a string representation of the colorized object.
         """
         if not self.color_pair:
-            return unicode(self.obj)
+            return str(self.obj)
         return f"{self.color_pair[0]}{self.obj}{self.color_pair[1]}"
 
     def __int__(self):
@@ -153,7 +148,7 @@ class GenericColorizer:
             map.
         :returns: A pair of color sequences.
         """
-        if isinstance(color_tag, string_types):
+        if isinstance(color_tag, str):
             color_tag = [color_tag]
 
         pairs = list(filter(None, (self.color_map.get(tag) for tag in color_tag)))

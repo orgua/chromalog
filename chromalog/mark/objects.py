@@ -2,13 +2,7 @@
 Mark log entries.
 """
 
-from six import PY3
-from six import string_types
-
-from ..colorizer import ColorizableMixin
-
-# Hack to define unicode in Python 3 and reach 100% coverage.
-unicode = str if PY3 else unicode
+from chromalog.colorizer import ColorizableMixin
 
 
 class Mark(ColorizableMixin):
@@ -42,7 +36,7 @@ class Mark(ColorizableMixin):
         >>> Mark(Mark(42, "c"), ["a", "b"]) == Mark(42, ["a", "b", "c"])
         True
         """
-        if isinstance(color_tag, string_types):
+        if isinstance(color_tag, str):
             color_tag = [color_tag]
 
         if isinstance(obj, Mark):
@@ -74,7 +68,7 @@ class Mark(ColorizableMixin):
         """
         Gives a string representation of the marked object.
         """
-        return unicode(self.obj)
+        return str(self.obj)
 
     def __int__(self):
         """
@@ -91,7 +85,7 @@ class Mark(ColorizableMixin):
 
         >>> float(Mark(3.14, []))
         %f
-        """ % (float(self.obj))  # Account for Python 2.6 discrepancy
+        """
         return float(self.obj)
 
     def __bool__(self):

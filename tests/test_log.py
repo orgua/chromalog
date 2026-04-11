@@ -4,13 +4,12 @@ Test colorized logging structures.
 
 import logging
 import sys
+from io import StringIO
 from logging import DEBUG
 from logging import LogRecord
 from unittest import TestCase
 from unittest.mock import MagicMock
 from unittest.mock import patch
-
-from six import StringIO
 
 from chromalog import basicConfig
 from chromalog.colorizer import GenericColorizer

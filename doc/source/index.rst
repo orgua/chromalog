@@ -4,7 +4,7 @@ Chromalog's documentation
 Chromalog is a Python library that eases the use of
 colors in Python logging.
 
-It integrates seamlessly into any Python 2 or Python 3 project. Based on
+It integrates seamlessly into any Python project. Based on
 `colorama <https://pypi.python.org/pypi/colorama>`_, it works on both Windows
 and \*NIX platforms and is highly configurable.
 

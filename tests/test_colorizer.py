@@ -4,8 +4,6 @@ Test colorizers.
 
 from unittest import TestCase
 
-from six import PY3
-
 from chromalog.colorizer import ColorizableMixin
 from chromalog.colorizer import ColorizedObject
 from chromalog.colorizer import Colorizer
@@ -336,12 +334,11 @@ class ColorizerTests(TestCase):
         )
 
     def test_explicit_unicode_in_python3(self):
-        if PY3:
-            self.assertEqual(
-                "test",
-                ColorizedObject("test").__unicode__(),
-            )
-            self.assertEqual(
-                "<test>",
-                ColorizedObject("test", color_pair=("<", ">")).__unicode__(),
-            )
+        self.assertEqual(
+            "test",
+            ColorizedObject("test").__unicode__(),
+        )
+        self.assertEqual(
+            "<test>",
+            ColorizedObject("test", color_pair=("<", ">")).__unicode__(),
+        )

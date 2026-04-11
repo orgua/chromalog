@@ -3,10 +3,6 @@
 Advanced usage
 ==============
 
-.. testsetup::
-
-   from __future__ import print_function
-
 We've seen in :ref:`quickstart` how to quickly colorize your logging output.
 But **Chromalog** has much more to offer than just that !
 
