@@ -2,8 +2,6 @@
 Mark log entries.
 """
 
-from builtins import str
-
 from six import PY3
 from six import string_types
 
@@ -51,7 +49,7 @@ class Mark(ColorizableMixin):
             color_tag.extend(obj.color_tag)
             obj = obj.obj
 
-        super(Mark, self).__init__(color_tag=color_tag)
+        super().__init__(color_tag=color_tag)
         self.obj = obj
 
     def __repr__(self):

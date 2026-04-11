@@ -2,16 +2,13 @@
 Test colorizers.
 """
 
-from builtins import str  # noqa
-
 from unittest import TestCase
+
 from six import PY3
 
-from chromalog.colorizer import (
-    ColorizedObject,
-    Colorizer,
-    ColorizableMixin,
-)
+from chromalog.colorizer import ColorizableMixin
+from chromalog.colorizer import ColorizedObject
+from chromalog.colorizer import Colorizer
 from chromalog.mark import Mark
 
 from .common import repeat_for_values

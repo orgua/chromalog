@@ -4,7 +4,6 @@ Log-related functions and structures.
 
 import logging
 import sys
-from builtins import map
 from contextlib import contextmanager
 from functools import partial
 
@@ -78,7 +77,7 @@ class ColorizingFormatter(logging.Formatter):
         message_color_tag = getattr(record, "message_color_tag", None)
 
         with self._patch_record(record, colorizer, message_color_tag):
-            return super(ColorizingFormatter, self).format(record)
+            return super().format(record)
 
 
 class ColorizingStreamHandler(logging.StreamHandler):
@@ -121,7 +120,7 @@ class ColorizingStreamHandler(logging.StreamHandler):
         if self.has_color_support:
             stream = AnsiToWin32(stream).stream
 
-        super(ColorizingStreamHandler, self).__init__(stream)
+        super().__init__(stream)
         self.colorizer = colorizer or Colorizer()
         self.highlighter = highlighter
         self.setFormatter(ColorizingFormatter())
@@ -175,4 +174,4 @@ class ColorizingStreamHandler(logging.StreamHandler):
                         ),
                     )
 
-            return super(ColorizingStreamHandler, self).format(record)
+            return super().format(record)

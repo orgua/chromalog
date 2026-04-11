@@ -2,7 +2,6 @@
 Colorizing functions and structures.
 """
 
-
 from colorama import Back
 from colorama import Fore
 from colorama import Style
@@ -26,7 +25,7 @@ class ColorizableMixin:
 
         `color_tag` can be either a string or a list of strings.
         """
-        super(ColorizableMixin, self).__init__()
+        super().__init__()
         self.color_tag = color_tag
 
 
