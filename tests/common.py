@@ -13,7 +13,7 @@ def repeat_for_values(values=None):
             "integers": 42,
             "floats": 3.14,
             "strings": "Hello you",
-            "unicode_strings": u"éléphant is the french for elephant",
+            "unicode_strings": "éléphant is the french for elephant",
             "booleans": True,
             "none": None,
         }

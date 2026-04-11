@@ -26,6 +26,7 @@ class SimpleHelpers(object):
         helper = self.__helpers.get(color_tag)
 
         if not helper:
+
             def helper(obj):
                 return Mark(obj=obj, color_tag=color_tag)
 
@@ -57,9 +58,9 @@ class SimpleHelpers(object):
         >>> SimpleHelpers().alpha(42).color_tag
         ['alpha']
 
-        >>> getattr(SimpleHelpers(), '_incorrect', None)
+        >>> getattr(SimpleHelpers(), "_incorrect", None)
         """
-        if name.startswith('_'):
+        if name.startswith("_"):
             raise AttributeError(name)
 
         return self.make_helper(color_tag=name)
@@ -87,6 +88,7 @@ class ConditionalHelpers(object):
         )
 
         if not helper:
+
             def helper(obj, condition=None):
                 if condition is None:
                     condition = obj
@@ -96,7 +98,7 @@ class ConditionalHelpers(object):
                     color_tag=color_tag_true if condition else color_tag_false,
                 )
 
-            helper.__name__ = '_or_'.join((color_tag_true, color_tag_false))
+            helper.__name__ = "_or_".join((color_tag_true, color_tag_false))
             helper.__doc__ = """
             Convenience helper method that marks an object with the
             {color_tag_true!r} color tag if `condition` is truthy, and with the
@@ -126,9 +128,7 @@ class ConditionalHelpers(object):
                 color_tag_false=color_tag_false,
             )
 
-            self.__helpers[
-                (color_tag_true, color_tag_false),
-            ] = helper
+            self.__helpers[(color_tag_true, color_tag_false),] = helper
 
         return helper
 
@@ -151,14 +151,14 @@ class ConditionalHelpers(object):
         >>> ConditionalHelpers().alpha_or_beta(0).color_tag
         ['beta']
 
-        >>> getattr(ConditionalHelpers(), 'alpha_beta', None)
-        >>> getattr(ConditionalHelpers(), '_incorrect', None)
+        >>> getattr(ConditionalHelpers(), "alpha_beta", None)
+        >>> getattr(ConditionalHelpers(), "_incorrect", None)
         """
-        if name.startswith('_'):
+        if name.startswith("_"):
             raise AttributeError(name)
 
         try:
-            color_tag_true, color_tag_false = name.split('_or_')
+            color_tag_true, color_tag_false = name.split("_or_")
         except ValueError:
             raise AttributeError(name)
 
@@ -182,5 +182,5 @@ Pseudo-module that generates conditional helpers.
 See :class:`ConditionalHelpers<chromalog.mark.helpers.ConditionalHelpers>`.
 """
 
-sys.modules['.'.join([__name__, 'simple'])] = simple
-sys.modules['.'.join([__name__, 'conditional'])] = conditional
+sys.modules[".".join([__name__, "simple"])] = simple
+sys.modules[".".join([__name__, "conditional"])] = conditional

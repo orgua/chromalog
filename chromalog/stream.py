@@ -10,4 +10,4 @@ def stream_has_color_support(stream):
     :param stream: The stream to check.
     :returns: True if stream has color support.
     """
-    return getattr(stream, 'isatty', lambda: False)()
+    return getattr(stream, "isatty", lambda: False)()

@@ -36,7 +36,7 @@ def basicConfig(
 
     if not logger.handlers:
         if format is None:
-            format = '%(levelname)s:%(name)s:%(message)s'
+            format = "%(levelname)s:%(name)s:%(message)s"
 
         formatter = ColorizingFormatter(fmt=format, datefmt=datefmt)
         handler = ColorizingStreamHandler(stream=stream, colorizer=colorizer)

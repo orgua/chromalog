@@ -1,6 +1,7 @@
 """
 Colorizing functions and structures.
 """
+
 from builtins import object
 from six import (
     string_types,
@@ -83,7 +84,7 @@ class ColorizedObject(object):
         if not self.color_pair:
             return unicode(self.obj)
         else:
-            return u"{color_start}{obj}{color_stop}".format(
+            return "{color_start}{obj}{color_stop}".format(
                 color_start=self.color_pair[0],
                 obj=self.obj,
                 color_stop=self.color_pair[1],
@@ -134,10 +135,7 @@ class ColorizedObject(object):
         False
         """
         if isinstance(other, self.__class__):
-            return (
-                other.obj == self.obj and
-                other.color_pair == self.color_pair
-            )
+            return other.obj == self.obj and other.color_pair == self.color_pair
 
 
 class GenericColorizer(object):
@@ -145,6 +143,7 @@ class GenericColorizer(object):
     A class reponsible for colorizing log entries and
     :class:`chromalog.important.Important` objects.
     """
+
     def __init__(self, color_map=None, default_color_tag=None):
         """
         Initialize a new colorizer with a specified `color_map`.
@@ -178,9 +177,7 @@ class GenericColorizer(object):
         if isinstance(color_tag, string_types):
             color_tag = [color_tag]
 
-        pairs = list(
-            filter(None, (self.color_map.get(tag) for tag in color_tag))
-        )
+        pairs = list(filter(None, (self.color_map.get(tag) for tag in color_tag)))
 
         if not pairs and use_default:
             pair = self.color_map.get(self.default_color_tag)
@@ -198,8 +195,8 @@ class GenericColorizer(object):
                 pairs = [ctx_pair[::-1], ctx_pair] + pairs
 
         return (
-            ''.join(x[0] for x in pairs),
-            ''.join(x[1] for x in reversed(pairs)),
+            "".join(x[0] for x in pairs),
+            "".join(x[1] for x in reversed(pairs)),
         )
 
     def colorize(self, obj, color_tag=None, context_color_tag=None):
@@ -216,7 +213,7 @@ class GenericColorizer(object):
         .. note: A colorizable object must have a truthy-``color_tag``
             attribute.
         """
-        color_tag = getattr(obj, 'color_tag', color_tag)
+        color_tag = getattr(obj, "color_tag", color_tag)
 
         if color_tag:
             color_pair = self.get_color_pair(
@@ -242,21 +239,19 @@ class GenericColorizer(object):
             This function has no way of check the color-capability of any
             stream that the resulting string might be printed to.
         """
-        context_color_tag = getattr(message, 'color_tag', None)
-        args = [
-            self.colorize(arg, context_color_tag=context_color_tag)
-            for arg in args
-        ]
+        context_color_tag = getattr(message, "color_tag", None)
+        args = [self.colorize(arg, context_color_tag=context_color_tag) for arg in args]
         kwargs = dict(
-            (
-                key, self.colorize(value, context_color_tag=context_color_tag)
-            ) for key, value in kwargs.items()
+            (key, self.colorize(value, context_color_tag=context_color_tag))
+            for key, value in kwargs.items()
         )
         if context_color_tag:
-            return str(self.colorize(
-                str(message).format(*args, **kwargs),
-                color_tag=context_color_tag,
-            ))
+            return str(
+                self.colorize(
+                    str(message).format(*args, **kwargs),
+                    color_tag=context_color_tag,
+                )
+            )
         else:
             return message.format(*args, **kwargs)
 
@@ -265,14 +260,15 @@ class Colorizer(GenericColorizer):
     """
     Colorize log entries.
     """
+
     default_color_map = {
-        'debug': (Style.DIM + Fore.CYAN, Style.RESET_ALL),
-        'info': (Style.RESET_ALL, Style.RESET_ALL),
-        'important': (Style.BRIGHT, Style.RESET_ALL),
-        'success': (Fore.GREEN, Style.RESET_ALL),
-        'warning': (Fore.YELLOW, Style.RESET_ALL),
-        'error': (Fore.RED, Style.RESET_ALL),
-        'critical': (Back.RED, Style.RESET_ALL),
+        "debug": (Style.DIM + Fore.CYAN, Style.RESET_ALL),
+        "info": (Style.RESET_ALL, Style.RESET_ALL),
+        "important": (Style.BRIGHT, Style.RESET_ALL),
+        "success": (Fore.GREEN, Style.RESET_ALL),
+        "warning": (Fore.YELLOW, Style.RESET_ALL),
+        "error": (Fore.RED, Style.RESET_ALL),
+        "critical": (Back.RED, Style.RESET_ALL),
     }
 
 
@@ -281,6 +277,7 @@ class MonochromaticColorizer(Colorizer):
     Monochromatic colorizer for non-color-capable streams that only highlights
     :class:`chromalog.mark.Mark` objects with an ``important`` color tag.
     """
+
     default_color_map = {
-        'important': ('**', '**'),
+        "important": ("**", "**"),
     }

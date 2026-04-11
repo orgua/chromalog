@@ -1,6 +1,7 @@
 """
 Mark log entries.
 """
+
 from builtins import str
 from six import (
     string_types,
@@ -17,6 +18,7 @@ class Mark(ColorizableMixin):
     """
     Wraps any object and mark it for colored output.
     """
+
     def __init__(self, obj, color_tag):
         """
         Mark ``obj`` for coloration.
@@ -31,16 +33,16 @@ class Mark(ColorizableMixin):
 
         >>> from chromalog.mark.objects import Mark
 
-        >>> Mark(42, 'a').color_tag
+        >>> Mark(42, "a").color_tag
         ['a']
 
-        >>> Mark(42, ['a']).color_tag
+        >>> Mark(42, ["a"]).color_tag
         ['a']
 
-        >>> Mark(42, ['a', 'b']).color_tag
+        >>> Mark(42, ["a", "b"]).color_tag
         ['a', 'b']
 
-        >>> Mark(Mark(42, 'c'), ['a', 'b']) == Mark(42, ['a', 'b', 'c'])
+        >>> Mark(Mark(42, "c"), ["a", "b"]) == Mark(42, ["a", "b", "c"])
         True
         """
         if isinstance(color_tag, string_types):
@@ -57,10 +59,10 @@ class Mark(ColorizableMixin):
         """
         Gives a representation of the marked object.
 
-        >>> repr(Mark('a', 'b'))
+        >>> repr(Mark("a", "b"))
         "Mark('a', ['b'])"
         """
-        return '{klass}({obj!r}, {color_tag!r})'.format(
+        return "{klass}({obj!r}, {color_tag!r})".format(
             klass=self.__class__.__name__,
             obj=self.obj,
             color_tag=self.color_tag,
@@ -119,11 +121,8 @@ class Mark(ColorizableMixin):
         >>> Mark(42, color_tag=[]) == Mark(42, color_tag=[])
         True
 
-        >>> Mark(42, color_tag=['a']) == Mark(42, color_tag=['b'])
+        >>> Mark(42, color_tag=["a"]) == Mark(42, color_tag=["b"])
         False
         """
         if isinstance(other, self.__class__):
-            return (
-                other.obj == self.obj and
-                other.color_tag == self.color_tag
-            )
+            return other.obj == self.obj and other.color_tag == self.color_tag

@@ -6,7 +6,7 @@ from chromalog.mark.helpers.simple import success, error, important
 chromalog.basicConfig(format="%(message)s", level=logging.INFO)
 logger = logging.getLogger()
 
-filename = r'/var/lib/status'
+filename = r"/var/lib/status"
 
 logger.info("Booting up system: %s", success("OK"))
 logger.info("Booting up network: %s", error("FAIL"))

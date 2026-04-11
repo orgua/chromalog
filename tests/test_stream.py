@@ -13,9 +13,7 @@ class StreamTests(TestCase):
     def test_csh_color_support_with_color_stream(self):
         color_stream = MagicMock(spec=object)
         color_stream.isatty = lambda: True
-        self.assertTrue(stream_has_color_support(
-            color_stream
-        ))
+        self.assertTrue(stream_has_color_support(color_stream))
 
     def test_csh_color_support_with_no_color_stream(self):
         no_color_stream = MagicMock(spec=object)

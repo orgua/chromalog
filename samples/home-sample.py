@@ -15,7 +15,7 @@ from chromalog.mark.helpers.simple import (
     error,
 )
 
-formatter = ColorizingFormatter('[%(levelname)s] %(message)s')
+formatter = ColorizingFormatter("[%(levelname)s] %(message)s")
 
 handler = ColorizingStreamHandler()
 handler.setFormatter(formatter)
@@ -27,11 +27,11 @@ logger.addHandler(handler)
 logger.info("This is a regular info log message.")
 logger.info(
     "Trying to read user information from %s using a json parser.",
-    important(r'/usr/local/mylib/user-info.json'),
+    important(r"/usr/local/mylib/user-info.json"),
 )
 logger.warning(
     "Unable to read the file at %s ! Something is wrong.",
-    important(r'/usr/local/mylib/user-info.json'),
+    important(r"/usr/local/mylib/user-info.json"),
 )
 logger.error("Something went really wrong !")
 logger.info(

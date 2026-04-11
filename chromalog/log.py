@@ -1,6 +1,7 @@
 """
 Log-related functions and structures.
 """
+
 from builtins import map
 
 import sys
@@ -27,20 +28,19 @@ class ColorizingFormatter(logging.Formatter, object):
         if colorizer:
             if isinstance(record.args, dict):
                 record.args = dict(
-                    (
-                        k, colorizer.colorize(
-                            v, context_color_tag=message_color_tag
-                        )
-                    ) for k, v in record.args.items()
+                    (k, colorizer.colorize(v, context_color_tag=message_color_tag))
+                    for k, v in record.args.items()
                 )
             else:
-                record.args = tuple(map(
-                    partial(
-                        colorizer.colorize,
-                        context_color_tag=message_color_tag,
-                    ),
-                    record.args,
-                ))
+                record.args = tuple(
+                    map(
+                        partial(
+                            colorizer.colorize,
+                            context_color_tag=message_color_tag,
+                        ),
+                        record.args,
+                    )
+                )
             record.filename = colorizer.colorize(record.filename)
             record.funcName = colorizer.colorize(record.funcName)
             record.levelname = colorizer.colorize(record.levelname)
@@ -51,10 +51,12 @@ class ColorizingFormatter(logging.Formatter, object):
             record.threadName = colorizer.colorize(record.threadName)
 
             if message_color_tag:
-                message = colorizer.colorize(Mark(
-                    record.getMessage(),
-                    color_tag=message_color_tag,
-                ))
+                message = colorizer.colorize(
+                    Mark(
+                        record.getMessage(),
+                        color_tag=message_color_tag,
+                    )
+                )
                 record.getMessage = lambda: message
 
         try:
@@ -73,8 +75,8 @@ class ColorizingFormatter(logging.Formatter, object):
             use for colorizing the formatted string. If no such attribute is
             found, the default non-colorized behaviour is used instead.
         """
-        colorizer = getattr(record, 'colorizer', None)
-        message_color_tag = getattr(record, 'message_color_tag', None)
+        colorizer = getattr(record, "colorizer", None)
+        message_color_tag = getattr(record, "message_color_tag", None)
 
         with self._patch_record(record, colorizer, message_color_tag):
             return super(ColorizingFormatter, self).format(record)
@@ -85,11 +87,11 @@ class ColorizingStreamHandler(logging.StreamHandler, object):
     A stream handler that colorize its output.
     """
 
-    _RECORD_ATTRIBUTE_NAME = 'colorizer'
+    _RECORD_ATTRIBUTE_NAME = "colorizer"
     default_attributes_map = {
-        'name': 'important',
-        'levelname': lambda record: str(record.levelname).lower(),
-        'message': lambda record: str(record.levelname).lower(),
+        "name": "important",
+        "levelname": lambda record: str(record.levelname).lower(),
+        "message": lambda record: str(record.levelname).lower(),
     }
 
     def __init__(
@@ -120,9 +122,7 @@ class ColorizingStreamHandler(logging.StreamHandler, object):
         if self.has_color_support:
             stream = AnsiToWin32(stream).stream
 
-        super(ColorizingStreamHandler, self).__init__(
-            stream
-        )
+        super(ColorizingStreamHandler, self).__init__(stream)
         self.colorizer = colorizer or Colorizer()
         self.highlighter = highlighter
         self.setFormatter(ColorizingFormatter())
@@ -133,11 +133,7 @@ class ColorizingStreamHandler(logging.StreamHandler, object):
         The active colorizer or highlighter depending on whether color is
         supported.
         """
-        if (
-                self.has_color_support and
-                not self.color_disabled and
-                self.colorizer
-        ):
+        if self.has_color_support and not self.color_disabled and self.colorizer:
             return self.colorizer
 
         return self.highlighter
@@ -152,7 +148,7 @@ class ColorizingStreamHandler(logging.StreamHandler, object):
             delattr(record, self._RECORD_ATTRIBUTE_NAME)
 
     def _color_tag_from_record(self, color_tag, record):
-        if hasattr(color_tag, '__call__'):
+        if hasattr(color_tag, "__call__"):
             return color_tag(record)
         else:
             return color_tag.format(**record.__dict__)
@@ -163,18 +159,22 @@ class ColorizingStreamHandler(logging.StreamHandler, object):
         """
         with self.__bind_to_record(record):
             for attribute, color_tag in self.attributes_map.items():
-                if attribute == 'message':
+                if attribute == "message":
                     record.message_color_tag = self._color_tag_from_record(
                         color_tag,
                         record,
                     )
                 else:
-                    setattr(record, attribute, Mark(
-                        getattr(record, attribute),
-                        color_tag=self._color_tag_from_record(
-                            color_tag,
-                            record,
+                    setattr(
+                        record,
+                        attribute,
+                        Mark(
+                            getattr(record, attribute),
+                            color_tag=self._color_tag_from_record(
+                                color_tag,
+                                record,
+                            ),
                         ),
-                    ))
+                    )
 
             return super(ColorizingStreamHandler, self).format(record)
