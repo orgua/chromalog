@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # chromalog documentation build configuration file, created by
 # sphinx-quickstart on Tue Feb 10 18:40:21 2015.
@@ -13,6 +12,7 @@
 # serve to show the default.
 
 import os
+
 import sphinx_rtd_theme
 
 # If extensions (or modules to document with autodoc) are in another directory,

@@ -4,16 +4,11 @@ A sample using chromalog.
 
 import logging
 
-from chromalog.log import (
-    ColorizingStreamHandler,
-    ColorizingFormatter,
-)
-
-from chromalog.mark.helpers.simple import (
-    important,
-    success,
-    error,
-)
+from chromalog.log import ColorizingFormatter
+from chromalog.log import ColorizingStreamHandler
+from chromalog.mark.helpers.simple import error
+from chromalog.mark.helpers.simple import important
+from chromalog.mark.helpers.simple import success
 
 formatter = ColorizingFormatter("[%(levelname)s] %(message)s")
 

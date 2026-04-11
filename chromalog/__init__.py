@@ -4,10 +4,8 @@ Enhance Python logging with colors.
 
 import logging
 
-from .log import (
-    ColorizingFormatter,
-    ColorizingStreamHandler,
-)
+from .log import ColorizingFormatter
+from .log import ColorizingStreamHandler
 
 
 def basicConfig(

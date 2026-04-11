@@ -2,23 +2,18 @@
 Colorizing functions and structures.
 """
 
-from builtins import object
-from six import (
-    string_types,
-    PY3,
-)
 
-from colorama import (
-    Fore,
-    Back,
-    Style,
-)
+from colorama import Back
+from colorama import Fore
+from colorama import Style
+from six import PY3
+from six import string_types
 
 # Hack to define unicode in Python 3 and reach 100% coverage.
 unicode = str if PY3 else unicode
 
 
-class ColorizableMixin(object):
+class ColorizableMixin:
     """
     Make an object colorizable by a colorizer.
     """
@@ -35,7 +30,7 @@ class ColorizableMixin(object):
         self.color_tag = color_tag
 
 
-class ColorizedObject(object):
+class ColorizedObject:
     """
     Wraps any object to colorize it.
     """
@@ -57,12 +52,7 @@ class ColorizedObject(object):
         """
         if not self.color_pair:
             return repr(self.obj)
-        else:
-            return "{color_start}{obj!r}{color_stop}".format(
-                color_start=self.color_pair[0],
-                obj=self.obj,
-                color_stop=self.color_pair[1],
-            )
+        return f"{self.color_pair[0]}{self.obj!r}{self.color_pair[1]}"
 
     def __str__(self):
         """
@@ -70,12 +60,7 @@ class ColorizedObject(object):
         """
         if not self.color_pair:
             return str(self.obj)
-        else:
-            return "{color_start}{obj}{color_stop}".format(
-                color_start=self.color_pair[0],
-                obj=self.obj,
-                color_stop=self.color_pair[1],
-            )
+        return f"{self.color_pair[0]}{self.obj}{self.color_pair[1]}"
 
     def __unicode__(self):
         """
@@ -83,12 +68,7 @@ class ColorizedObject(object):
         """
         if not self.color_pair:
             return unicode(self.obj)
-        else:
-            return "{color_start}{obj}{color_stop}".format(
-                color_start=self.color_pair[0],
-                obj=self.obj,
-                color_stop=self.color_pair[1],
-            )
+        return f"{self.color_pair[0]}{self.obj}{self.color_pair[1]}"
 
     def __int__(self):
         """
@@ -138,7 +118,7 @@ class ColorizedObject(object):
             return other.obj == self.obj and other.color_pair == self.color_pair
 
 
-class GenericColorizer(object):
+class GenericColorizer:
     """
     A class reponsible for colorizing log entries and
     :class:`chromalog.important.Important` objects.
@@ -252,8 +232,7 @@ class GenericColorizer(object):
                     color_tag=context_color_tag,
                 )
             )
-        else:
-            return message.format(*args, **kwargs)
+        return message.format(*args, **kwargs)
 
 
 class Colorizer(GenericColorizer):

@@ -2,27 +2,21 @@
 Test colorized logging structures.
 """
 
-import sys
 import logging
-
+import sys
+from logging import DEBUG
+from logging import LogRecord
 from unittest import TestCase
-from logging import (
-    LogRecord,
-    DEBUG,
-)
-from mock import (
-    MagicMock,
-    patch,
-)
+from unittest.mock import MagicMock
+from unittest.mock import patch
+
 from six import StringIO
 
 from chromalog import basicConfig
 from chromalog.colorizer import GenericColorizer
+from chromalog.log import ColorizingFormatter
+from chromalog.log import ColorizingStreamHandler
 from chromalog.mark import Mark
-from chromalog.log import (
-    ColorizingFormatter,
-    ColorizingStreamHandler,
-)
 
 
 class LogTests(TestCase):

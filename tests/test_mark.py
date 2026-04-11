@@ -3,17 +3,14 @@ Test object marking.
 """
 
 from unittest import TestCase
-from six import (
-    PY2,
-    PY3,
-)
+
+from six import PY2
+from six import PY3
 
 from chromalog.mark import Mark
 
-from .common import (
-    repeat_for_values,
-    repeat_for_integral_values,
-)
+from .common import repeat_for_integral_values
+from .common import repeat_for_values
 
 
 class MarkTests(TestCase):
@@ -24,11 +21,11 @@ class MarkTests(TestCase):
         if PY2 and isinstance(value, unicode):
             return
 
-        self.assertEqual("{0}".format(value), "{0}".format(Mark(value, "a")))
+        self.assertEqual(f"{value}", "{0}".format(Mark(value, "a")))
 
     @repeat_for_values()
     def test_unicode_rendering_of_marked(self, _, value):
-        self.assertEqual("{0}".format(value), "{0}".format(Mark(value, "a")))
+        self.assertEqual(f"{value}", "{0}".format(Mark(value, "a")))
 
     @repeat_for_integral_values()
     def test_int_rendering_of_marked(self, _, value):

@@ -2,21 +2,20 @@
 Log-related functions and structures.
 """
 
-from builtins import map
-
-import sys
 import logging
+import sys
+from builtins import map
+from contextlib import contextmanager
+from functools import partial
 
 from colorama import AnsiToWin32
-from functools import partial
-from contextlib import contextmanager
 
 from .colorizer import Colorizer
 from .mark.objects import Mark
 from .stream import stream_has_color_support
 
 
-class ColorizingFormatter(logging.Formatter, object):
+class ColorizingFormatter(logging.Formatter):
     """
     A formatter that colorize its output.
     """
@@ -82,7 +81,7 @@ class ColorizingFormatter(logging.Formatter, object):
             return super(ColorizingFormatter, self).format(record)
 
 
-class ColorizingStreamHandler(logging.StreamHandler, object):
+class ColorizingStreamHandler(logging.StreamHandler):
     """
     A stream handler that colorize its output.
     """
@@ -148,10 +147,9 @@ class ColorizingStreamHandler(logging.StreamHandler, object):
             delattr(record, self._RECORD_ATTRIBUTE_NAME)
 
     def _color_tag_from_record(self, color_tag, record):
-        if hasattr(color_tag, "__call__"):
+        if callable(color_tag):
             return color_tag(record)
-        else:
-            return color_tag.format(**record.__dict__)
+        return color_tag.format(**record.__dict__)
 
     def format(self, record):
         """

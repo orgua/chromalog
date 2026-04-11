@@ -1,4 +1,5 @@
 import logging
+
 import chromalog
 
 chromalog.basicConfig(level=logging.DEBUG)

@@ -287,14 +287,14 @@ class ColorizerTests(TestCase):
     @repeat_for_values()
     def test_colorized_object_conversion(self, _, value):
         self.assertEqual(
-            "{0}".format(value),
-            "{0}".format(ColorizedObject(value)),
+            f"{value}",
+            f"{ColorizedObject(value)}",
         )
 
     @repeat_for_values()
     def test_colorized_object_conversion_with_color_pair(self, _, value):
         self.assertEqual(
-            "<{0}>".format(value),
+            f"<{value}>",
             "{0}".format(ColorizedObject(value, color_pair=("<", ">"))),
         )
 
@@ -308,7 +308,7 @@ class ColorizerTests(TestCase):
     @repeat_for_values()
     def test_colorized_object_representation_with_color_pair(self, _, value):
         self.assertEqual(
-            "<{0!r}>".format(value),
+            f"<{value!r}>",
             repr(ColorizedObject(value, color_pair=("<", ">"))),
         )
 

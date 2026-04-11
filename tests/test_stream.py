@@ -3,8 +3,7 @@ Stream tests.
 """
 
 from unittest import TestCase
-
-from mock import MagicMock
+from unittest.mock import MagicMock
 
 from chromalog.stream import stream_has_color_support
 

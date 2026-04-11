@@ -7,7 +7,7 @@ import sys
 from .objects import Mark
 
 
-class SimpleHelpers(object):
+class SimpleHelpers:
     """
     A class that is designed to act as a module and implement magic helper
     generation.
@@ -31,7 +31,7 @@ class SimpleHelpers(object):
                 return Mark(obj=obj, color_tag=color_tag)
 
             helper.__name__ = color_tag
-            helper.__doc__ = """
+            helper.__doc__ = f"""
             Mark an object for coloration.
 
             The color tag is set to {color_tag!r}.
@@ -43,7 +43,7 @@ class SimpleHelpers(object):
 
             >>> {color_tag}(42).color_tag
             ['{color_tag}']
-            """.format(color_tag=color_tag)
+            """
 
             self.__helpers[color_tag] = helper
 
@@ -66,7 +66,7 @@ class SimpleHelpers(object):
         return self.make_helper(color_tag=name)
 
 
-class ConditionalHelpers(object):
+class ConditionalHelpers:
     """
     A class that is designed to act as a module and implement magic helper
     generation.
@@ -99,7 +99,7 @@ class ConditionalHelpers(object):
                 )
 
             helper.__name__ = "_or_".join((color_tag_true, color_tag_false))
-            helper.__doc__ = """
+            helper.__doc__ = f"""
             Convenience helper method that marks an object with the
             {color_tag_true!r} color tag if `condition` is truthy, and with the
             {color_tag_false!r} color tag otherwise.
@@ -109,24 +109,20 @@ class ConditionalHelpers(object):
                 :const:`None`, the `obj` is evaluated instead.
             :returns: A :class:`Mark<chromalog.mark.objects.Mark>` instance.
 
-            >>> from chromalog.mark.helpers.conditional import {name}
+            >>> from chromalog.mark.helpers.conditional import {helper.__name__}
 
-            >>> {name}(42, True).color_tag
+            >>> {helper.__name__}(42, True).color_tag
             ['{color_tag_true}']
 
-            >>> {name}(42, False).color_tag
+            >>> {helper.__name__}(42, False).color_tag
             ['{color_tag_false}']
 
-            >>> {name}(42).color_tag
+            >>> {helper.__name__}(42).color_tag
             ['{color_tag_true}']
 
-            >>> {name}(0).color_tag
+            >>> {helper.__name__}(0).color_tag
             ['{color_tag_false}']
-            """.format(
-                name=helper.__name__,
-                color_tag_true=color_tag_true,
-                color_tag_false=color_tag_false,
-            )
+            """
 
             self.__helpers[(color_tag_true, color_tag_false),] = helper
 

@@ -3,10 +3,9 @@ Mark log entries.
 """
 
 from builtins import str
-from six import (
-    string_types,
-    PY3,
-)
+
+from six import PY3
+from six import string_types
 
 from ..colorizer import ColorizableMixin
 
@@ -62,11 +61,7 @@ class Mark(ColorizableMixin):
         >>> repr(Mark("a", "b"))
         "Mark('a', ['b'])"
         """
-        return "{klass}({obj!r}, {color_tag!r})".format(
-            klass=self.__class__.__name__,
-            obj=self.obj,
-            color_tag=self.color_tag,
-        )
+        return f"{self.__class__.__name__}({self.obj!r}, {self.color_tag!r})"
 
     def __str__(self):
         """
