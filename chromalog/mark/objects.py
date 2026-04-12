@@ -1,6 +1,7 @@
 """
 Mark log entries.
 """
+from typing import Any
 
 from chromalog.colorizer import ColorizableMixin
 
@@ -97,7 +98,7 @@ class Mark(ColorizableMixin):
         """
         return bool(self.obj)
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         """
         Compares this marked object with another.
 
@@ -113,3 +114,4 @@ class Mark(ColorizableMixin):
         """
         if isinstance(other, self.__class__):
             return other.obj == self.obj and other.color_tag == self.color_tag
+        return other == self.obj
