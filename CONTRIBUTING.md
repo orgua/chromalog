@@ -4,7 +4,6 @@ Contributions to `chromalog` are most welcome ! However, please note that the
 continuous integration process enforces the following things:
 
 * All unit-tests/doc-tests must pass.
-* No pep8 error are found, neither in the code or the tests.
 * Coverage is 100%.
 
 You obviously need to write tests whenever you add/modify a feature. Don't

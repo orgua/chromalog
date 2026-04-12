@@ -2,29 +2,19 @@
 Common functions for tests.
 """
 
-from nose_parameterized import parameterized
+values_various: dict = {
+    "integers": 42,
+    "floats": 3.14,
+    "strings": "Hello you",
+    "unicode_strings": "éléphant is the french for elephant",
+    "booleans": True,
+    "none": None,
+}
 
+values_integral = {
+    "integers": 42,
+    "floats": 3.14,
+    "booleans": True,
+}
 
-def repeat_for_values(values=None):
-    if not values:
-        values = {
-            "integers": 42,
-            "floats": 3.14,
-            "strings": "Hello you",
-            "unicode_strings": "éléphant is the french for elephant",
-            "booleans": True,
-            "none": None,
-        }
-
-    return parameterized.expand(list(values.items()))
-
-
-def repeat_for_integral_values(values=None):
-    if not values:
-        values = {
-            "integers": 42,
-            "floats": 3.14,
-            "booleans": True,
-        }
-
-    return parameterized.expand(list(values.items()))
+# list(values.items())
