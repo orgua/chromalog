@@ -45,6 +45,11 @@ test = [
     "coverage",
 ]
 
+doc = [
+    "Sphinx",
+    "sphinx-rtd-theme",
+]
+
 dev_old = [
     "coveralls == 0.5",
     "mock >= 1.0.1, < 2",
@@ -53,7 +58,7 @@ dev_old = [
     "sphinx-rtd-theme == 0.1.6",
 ]
 
-all = ["chromalog[dev, test]"]
+all = ["chromalog[dev, test, doc]"]
 
 [project.readme]
 file = "README.md"

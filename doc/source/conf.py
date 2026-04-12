@@ -12,6 +12,7 @@
 # serve to show the default.
 
 import os
+from pathlib import Path
 
 import sphinx_rtd_theme
 
@@ -59,9 +60,7 @@ copyright = "2015, Julien Kauffmann"
 #
 # The short X.Y version.
 version = (
-    open(
-        os.path.join(os.path.dirname(__file__), "..", "..", "VERSION"),  # TODO
-    )
+    (Path(__file__).parent.parent / "VERSION").open(encoding="utf-8")
     .read()
     .strip()
 )
@@ -197,11 +196,11 @@ htmlhelp_basename = "chromalogdoc"
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
-    #'papersize': 'letterpaper',
+    # 'papersize': 'letterpaper',
     # The font size ('10pt', '11pt' or '12pt').
-    #'pointsize': '10pt',
+    # 'pointsize': '10pt',
     # Additional stuff for the LaTeX preamble.
-    #'preamble': '',
+    # 'preamble': '',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
