@@ -7,7 +7,6 @@ import sys
 from io import StringIO
 from logging import DEBUG
 from logging import LogRecord
-from unittest import TestCase
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
@@ -16,7 +15,6 @@ from chromalog.colorizer import GenericColorizer
 from chromalog.log import ColorizingFormatter
 from chromalog.log import ColorizingStreamHandler
 from chromalog.mark import Mark
-
 
 
 def create_colorizer(format):
@@ -28,6 +26,7 @@ def create_colorizer(format):
     result.colorize = MagicMock(side_effect=colorize)
 
     return result
+
 
 def test_colorizing_formatter_without_a_colorizer():
     formatter = ColorizingFormatter(fmt="%(message)s")
@@ -44,7 +43,8 @@ def test_colorizing_formatter_without_a_colorizer():
         ),
         exc_info=None,
     )
-    assert "4 + 5 gives 9"== formatter.format(record)
+    assert formatter.format(record) == "4 + 5 gives 9"
+
 
 def test_colorizing_formatter_without_a_colorizer_mapping():
     formatter = ColorizingFormatter(fmt="%(message)s")
@@ -57,7 +57,8 @@ def test_colorizing_formatter_without_a_colorizer_mapping():
         args=({"summand1": 4, "summand2": 5, "sum": 4 + 5},),
         exc_info=None,
     )
-    assert "4 + 5 gives 9"== formatter.format(record)
+    assert formatter.format(record) == "4 + 5 gives 9"
+
 
 def test_colorizing_formatter_with_a_colorizer():
     formatter = ColorizingFormatter(fmt="%(message)s")
@@ -80,7 +81,7 @@ def test_colorizing_formatter_with_a_colorizer():
         create_colorizer(format="[%s]"),
     )
 
-    assert "[4] + [5] gives [9]"== formatter.format(record)
+    assert formatter.format(record) == "[4] + [5] gives [9]"
 
     colorizer = getattr(
         record,
@@ -89,6 +90,7 @@ def test_colorizing_formatter_with_a_colorizer():
     colorizer.colorize.assert_any_call(4, context_color_tag=None)
     colorizer.colorize.assert_any_call(5, context_color_tag=None)
     colorizer.colorize.assert_any_call(9, context_color_tag=None)
+
 
 def test_colorizing_formatter_with_a_colorizer_mapping():
     formatter = ColorizingFormatter(fmt="%(message)s")
@@ -107,7 +109,7 @@ def test_colorizing_formatter_with_a_colorizer_mapping():
         create_colorizer(format="[%s]"),
     )
 
-    assert "[4] + [5] gives [9]"== formatter.format(record)
+    assert formatter.format(record) == "[4] + [5] gives [9]"
 
     colorizer = getattr(
         record,
@@ -117,11 +119,13 @@ def test_colorizing_formatter_with_a_colorizer_mapping():
     colorizer.colorize.assert_any_call(5, context_color_tag=None)
     colorizer.colorize.assert_any_call(9, context_color_tag=None)
 
+
 @patch("sys.stderr", spec=sys.stderr)
 def test_csh_uses_stderr_as_default(stream):
     stream.isatty = lambda: False
     handler = ColorizingStreamHandler()
-    assert stream== handler.stream
+    assert stream == handler.stream
+
 
 def test_csh_uses_streamwrapper():
     stream = StringIO()
@@ -132,12 +136,14 @@ def test_csh_uses_streamwrapper():
     ):
         handler = ColorizingStreamHandler(stream=stream)
 
-    assert not(handler.stream is stream)
+    assert handler.stream is not stream
+
 
 def test_csh_dont_uses_streamwrapper_if_no_color():
     stream = StringIO()
     handler = ColorizingStreamHandler(stream=stream)
-    assert (handler.stream is stream)
+    assert handler.stream is stream
+
 
 def test_csh_format():
     colorizer = GenericColorizer(
@@ -174,10 +180,11 @@ def test_csh_format():
         exc_info=None,
     )
 
-    assert "4 + 5 gives [9]"== handler.format(record)
+    assert handler.format(record) == "4 + 5 gives [9]"
 
     # Make sure that the colorizer attribute was removed after processing.
-    assert not(hasattr(record, "colorizer"))
+    assert not (hasattr(record, "colorizer"))
+
 
 def test_csh_format_with_context():
     colorizer = GenericColorizer(
@@ -220,10 +227,11 @@ def test_csh_format_with_context():
         exc_info=None,
     )
 
-    assert "[DEBUG] {4 + 5 gives }{[9]}{}"==handler.format(record)
+    assert handler.format(record) == "[DEBUG] {4 + 5 gives }{[9]}{}"
 
     # Make sure that the colorizer attribute was removed after processing.
-    assert not(hasattr(record, "colorizer"))
+    assert not (hasattr(record, "colorizer"))
+
 
 def test_csh_format_no_color_support():
     colorizer = GenericColorizer(
@@ -260,10 +268,11 @@ def test_csh_format_no_color_support():
         exc_info=None,
     )
 
-    assert "4 + 5 gives <9>"== handler.format(record)
+    assert handler.format(record) == "4 + 5 gives <9>"
 
     # Make sure that the colorizer attribute was removed after processing.
-    assert not(hasattr(record, "colorizer"))
+    assert not (hasattr(record, "colorizer"))
+
 
 def test_csh_format_no_highlighter():
     colorizer = GenericColorizer(
@@ -294,10 +303,11 @@ def test_csh_format_no_highlighter():
         exc_info=None,
     )
 
-    assert "4 + 5 gives [9]"== handler.format(record)
+    assert handler.format(record) == "4 + 5 gives [9]"
 
     # Make sure that the colorizer attribute was removed after processing.
-    assert not(hasattr(record, "colorizer"))
+    assert not (hasattr(record, "colorizer"))
+
 
 def test_csh_format_no_highlighter_no_color_support():
     colorizer = GenericColorizer(
@@ -328,10 +338,11 @@ def test_csh_format_no_highlighter_no_color_support():
         exc_info=None,
     )
 
-    assert "4 + 5 gives 9"== handler.format(record)
+    assert handler.format(record) == "4 + 5 gives 9"
 
     # Make sure that the colorizer attribute was removed after processing.
-    assert not(hasattr(record, "colorizer"))
+    assert not (hasattr(record, "colorizer"))
+
 
 def test_csh_format_disabled_color_support():
     colorizer = GenericColorizer(
@@ -369,35 +380,38 @@ def test_csh_format_disabled_color_support():
         exc_info=None,
     )
 
-    assert "4 + 5 gives <9>"== handler.format(record)
+    assert handler.format(record) == "4 + 5 gives <9>"
 
     # Make sure that the colorizer attribute was removed after processing.
-    assert not(
+    assert not (
         hasattr(
             record,
             ColorizingStreamHandler._RECORD_ATTRIBUTE_NAME,
         )
     )
 
+
 def test_basic_config_add_a_stream_handler():
     logger = logging.Logger("test")
 
-    assert []== logger.handlers
+    assert logger.handlers == []
 
     with patch("logging.getLogger", new=lambda: logger):
         basicConfig()
-        assert 1== len(logger.handlers)
+        assert len(logger.handlers) == 1
+
 
 def test_basic_config_sets_level():
     logger = logging.Logger("test")
 
     with patch("logging.getLogger", new=lambda: logger):
         basicConfig(level=logging.DEBUG)
-        assert logging.DEBUG== logger.level
+        assert logger.level == logging.DEBUG
+
 
 def test_basic_config_sets_format():
     logger = logging.Logger("test")
 
     with patch("logging.getLogger", new=lambda: logger):
         basicConfig(format="my format")
-        assert "my format"== logger.handlers[0].formatter._fmt
+        assert logger.handlers[0].formatter._fmt == "my format"
