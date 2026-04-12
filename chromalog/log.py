@@ -71,7 +71,7 @@ class ColorizingFormatter(logging.Formatter):
 
         .. note:: The `record` object must have a `colorizer` attribute to be
             use for colorizing the formatted string. If no such attribute is
-            found, the default non-colorized behaviour is used instead.
+            found, the default non-colorized behavior is used instead.
         """
         colorizer = getattr(record, "colorizer", None)
         message_color_tag = getattr(record, "message_color_tag", None)

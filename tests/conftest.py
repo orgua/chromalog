@@ -16,5 +16,3 @@ values_integral = {
     "floats": 3.14,
     "booleans": True,
 }
-
-# list(values.items())

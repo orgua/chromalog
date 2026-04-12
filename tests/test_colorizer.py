@@ -8,7 +8,7 @@ from chromalog.colorizer import ColorizableMixin
 from chromalog.colorizer import ColorizedObject
 from chromalog.colorizer import Colorizer
 from chromalog.mark import Mark
-from tests.common import values_various
+from tests.conftest import values_various
 
 
 def test_colorizer_get_color_pair_not_found():

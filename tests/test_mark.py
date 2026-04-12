@@ -8,8 +8,8 @@ from chromalog.mark import Mark
 from chromalog.mark import fMark
 from chromalog.mark import iMark
 
-from .common import values_integral
-from .common import values_various
+from .conftest import values_integral
+from .conftest import values_various
 
 
 @pytest.mark.parametrize("value", values_various.values())

@@ -155,7 +155,7 @@ identifier, you can use the
    If no ``condition`` is specified, then the value itself is evaluated as a
    boolean value.
 
-   This is useful for outputing exit codes for instance.
+   This is useful for outputting exit codes for instance.
 
 Colorizers
 ----------

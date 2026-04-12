@@ -46,7 +46,7 @@ source_suffix = ".rst"
 # The encoding of source files.
 # source_encoding = 'utf-8-sig'
 
-# The master toctree document.
+# The main toctree document.
 master_doc = "index"
 
 # General information about the project.
@@ -60,7 +60,7 @@ copyright = "2015, Julien Kauffmann"
 # The short X.Y version.
 version = (
     open(
-        os.path.join(os.path.dirname(__file__), "..", "..", "VERSION"),
+        os.path.join(os.path.dirname(__file__), "..", "..", "VERSION"),  # TODO
     )
     .read()
     .strip()

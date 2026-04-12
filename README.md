@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/freelan-developers/chromalog.svg)](https://travis-ci.org/freelan-developers/chromalog)
 [![Documentation Status](https://readthedocs.org/projects/chromalog/badge/?version=latest)](https://readthedocs.org/projects/chromalog/?badge=latest)
-[![Coverage Status](https://coveralls.io/repos/freelan-developers/chromalog/badge.svg?branch=master)](https://coveralls.io/r/freelan-developers/chromalog?branch=master)
+[![Coverage Status](https://coveralls.io/repos/freelan-developers/chromalog/badge.svg?branch=main)](https://coveralls.io/r/freelan-developers/chromalog?branch=main)
 [![License](https://img.shields.io/pypi/l/chromalog.svg)](http://opensource.org/licenses/MIT)
 [![GitHub Tag](https://img.shields.io/github/tag/freelan-developers/chromalog.svg)](https://github.com/freelan-developers/chromalog)
 [![Latest Release](https://img.shields.io/pypi/v/chromalog.svg)](https://pypi.python.org/pypi/chromalog)

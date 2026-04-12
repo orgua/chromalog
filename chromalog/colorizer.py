@@ -114,7 +114,7 @@ class ColorizedObject:
 
 class GenericColorizer:
     """
-    A class reponsible for colorizing log entries and
+    A class responsible for colorizing log entries and
     :class:`chromalog.important.Important` objects.
     """
 
@@ -125,7 +125,7 @@ class GenericColorizer:
         :param color_map: A dictionary where the keys are color tags and the
             value are couples of color sequences (start, stop).
         :param default_color_tag: The color tag to default to in case an
-            unknown color tag is encountered. If set to a falsy value no
+            unknown color tag is encountered. If set to a false value no
             default is used.
         """
         self.color_map = color_map or self.default_color_map
