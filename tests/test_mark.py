@@ -5,6 +5,8 @@ Test object marking.
 import pytest
 
 from chromalog.mark import Mark
+from chromalog.mark import fMark
+from chromalog.mark import iMark
 
 from .common import values_integral
 from .common import values_various
@@ -17,9 +19,8 @@ def test_string_rendering_of_marked(value):
 
 @pytest.mark.parametrize("value", values_integral.values())
 def test_int_rendering_of_marked(value):
-    #assert "%d" % value == "%d" % Mark(value, "a")
-    assert "%d" % value == "%s" % Mark(value, "a")
-    assert f"{value}" == f"{Mark(value, "a")}"
+    assert "%d" % value == "%d" % iMark(value, "a")
+    assert f"{value}" == f"{iMark(value, 'a')}"
     # TODO: repair, mark does not behave like int
 
 
@@ -27,17 +28,15 @@ def test_int_rendering_of_marked(value):
 def test_hexadecimal_int_rendering_of_marked(value):
     # Apparently in Python 3, %x expects a real integer. If you know how to
     # make it work with a Marked integer, please let me know !
-    # assert "%x" % value == "%x" % Mark(value, "a")
-    assert "%x" % value == "%x" % Mark(value, "a")
-    assert f"{value:x}" == f"{Mark(value, "a"):x}"
+    assert "%x" % value == "%x" % iMark(value, "a")
+    assert f"{value:x}" == f"{iMark(value, 'a'):x}"
     # TODO: repair, mark does not behave like int
 
 
 @pytest.mark.parametrize("value", values_integral.values())
 def test_float_rendering_of_marked(value):
-    #assert "%f" % value == "%f" % Mark(value, "a")
-    assert "%f" % value == "%s" % Mark(value, "a")
-    assert f"{value}" == f"{Mark(value, "a")}"
+    assert "%f" % value == "%f" % fMark(value, "a")
+    assert f"{value}" == f"{fMark(value, 'a')}"
     # TODO: repair, mark does not behave like int
 
 
@@ -90,7 +89,7 @@ def test_simple_helpers_with(name):
     {
         "simple_name": "alpha_or_beta",
         "underscore_name": "alpha_beta_or_gamma_delta",
-    }.values()
+    }.values(),
 )
 def test_conditional_helpers_with(name):
     import chromalog.mark.helpers.conditional as helpers

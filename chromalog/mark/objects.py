@@ -1,17 +1,22 @@
 """
 Mark log entries.
 """
-from typing import Any
+
+from typing import Generic
+from typing import Self
+from typing import TypeVar
 
 from chromalog.colorizer import ColorizableMixin
 
+T = TypeVar("T", default=str)
 
-class Mark(ColorizableMixin):
+
+class MarkGeneric(ColorizableMixin, Generic[T]):
     """
     Wraps any object and mark it for colored output.
     """
 
-    def __init__(self, obj, color_tag):
+    def __init__(self, obj: Self | T, color_tag: str | list[str]) -> None:
         """
         Mark ``obj`` for coloration.
 
@@ -40,14 +45,14 @@ class Mark(ColorizableMixin):
         if isinstance(color_tag, str):
             color_tag = [color_tag]
 
-        if isinstance(obj, Mark):
+        if isinstance(obj, MarkGeneric):
             color_tag.extend(obj.color_tag)
             obj = obj.obj
 
         super().__init__(color_tag=color_tag)
         self.obj = obj
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Gives a representation of the marked object.
 
@@ -56,7 +61,7 @@ class Mark(ColorizableMixin):
         """
         return f"{self.__class__.__name__}({self.obj!r}, {self.color_tag!r})"
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Gives a string representation of the marked object.
 
@@ -65,13 +70,13 @@ class Mark(ColorizableMixin):
         """
         return str(self.obj)
 
-    def __unicode__(self):
+    def __unicode__(self) -> str:
         """
         Gives a string representation of the marked object.
         """
         return str(self.obj)
 
-    def __int__(self):
+    def __int__(self) -> int:
         """
         Gives an integer representation of the marked object.
 
@@ -80,7 +85,7 @@ class Mark(ColorizableMixin):
         """
         return int(self.obj)
 
-    def __float__(self):
+    def __float__(self) -> float:
         """
         Gives a float representation of the marked object.
 
@@ -89,7 +94,7 @@ class Mark(ColorizableMixin):
         """
         return float(self.obj)
 
-    def __bool__(self):
+    def __bool__(self) -> bool:
         """
         Gives a boolean representation of the marked object.
 
@@ -98,7 +103,7 @@ class Mark(ColorizableMixin):
         """
         return bool(self.obj)
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Compares this marked object with another.
 
@@ -106,7 +111,7 @@ class Mark(ColorizableMixin):
         :returns: True if `other` is a :class:`chromalog.mark.Mark` instance
             with equal `obj` and `color_tag` members.
 
-        >>> Mark(42, color_tag=[]) == Mark(42, color_tag=[])
+        >>> Mark(42, color_tag=[]) == Mark(42, color_tag=[]) TODO: fix
         True
 
         >>> Mark(42, color_tag=["a"]) == Mark(42, color_tag=["b"])
@@ -115,3 +120,10 @@ class Mark(ColorizableMixin):
         if isinstance(other, self.__class__):
             return other.obj == self.obj and other.color_tag == self.color_tag
         return other == self.obj
+
+
+# offer default specialized types
+fMark = MarkGeneric[float]
+iMark = MarkGeneric[int]
+sMark = MarkGeneric[str]
+Mark = sMark

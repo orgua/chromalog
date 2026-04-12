@@ -38,6 +38,9 @@ dev = [
     "bump2version",
     "ruff",
     "ty",
+]
+
+test = [
     "pytest",
     "coverage",
 ]
@@ -50,7 +53,7 @@ dev_old = [
     "sphinx-rtd-theme == 0.1.6",
 ]
 
-all = ["chromalog[dev]"]
+all = ["chromalog[dev, test]"]
 
 [project.readme]
 file = "README.md"
@@ -99,3 +102,7 @@ exclude = [
 [tool.ty.rules]
 unresolved-import = "ignore"
 missing-argument = "ignore"
+
+[tool.pytest.ini_options]
+addopts = "-vvv" # opts: verbose result for each tests
+# TODO: add something like "--cov --cov-report html --cov-report term-missing --cov-fail-under 95"
