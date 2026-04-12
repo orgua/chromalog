@@ -11,7 +11,7 @@ from chromalog.colorizer import ColorizableMixin
 T = TypeVar("T", default=str)
 
 
-class MarkGeneric(ColorizableMixin, Generic[T]):
+class Mark(ColorizableMixin, Generic[T]):
     """
     Wraps any object and mark it for colored output.
     """
@@ -45,7 +45,7 @@ class MarkGeneric(ColorizableMixin, Generic[T]):
         if isinstance(color_tag, str):
             color_tag = [color_tag]
 
-        if isinstance(obj, MarkGeneric):
+        if isinstance(obj, Mark):
             color_tag.extend(obj.color_tag)
             obj = obj.obj
 
@@ -111,7 +111,7 @@ class MarkGeneric(ColorizableMixin, Generic[T]):
         :returns: True if `other` is a :class:`chromalog.mark.Mark` instance
             with equal `obj` and `color_tag` members.
 
-        >>> Mark(42, color_tag=[]) == Mark(42, color_tag=[]) TODO: fix
+        >>> Mark(42, color_tag=[]) == Mark(42, color_tag=[])
         True
 
         >>> Mark(42, color_tag=["a"]) == Mark(42, color_tag=["b"])
@@ -123,7 +123,5 @@ class MarkGeneric(ColorizableMixin, Generic[T]):
 
 
 # offer default specialized types
-fMark = MarkGeneric[float]
-iMark = MarkGeneric[int]
-sMark = MarkGeneric[str]
-Mark = sMark
+fMark = Mark[float]
+iMark = Mark[int]
