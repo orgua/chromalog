@@ -1,6 +1,4 @@
-"""
-A sample using chromalog.
-"""
+"""A sample using chromalog."""
 
 import logging
 

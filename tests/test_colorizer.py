@@ -11,17 +11,17 @@ from chromalog.mark import Mark
 from tests.conftest import values_various
 
 
-def test_colorizer_get_color_pair_not_found():
+def test_colorizer_get_color_pair_not_found() -> None:
     colorizer = Colorizer({})
     assert colorizer.get_color_pair(color_tag=["a"]) == ("", "")
 
 
-def test_colorizer_get_color_pair_found():
+def test_colorizer_get_color_pair_found() -> None:
     colorizer = Colorizer({"a": ("[", "]")})
     assert colorizer.get_color_pair(color_tag=["a"]) == ("[", "]")
 
 
-def test_colorizer_get_color_pair_found_double():
+def test_colorizer_get_color_pair_found_double() -> None:
     colorizer = Colorizer(
         {
             "a": ("[", "]"),
@@ -31,7 +31,7 @@ def test_colorizer_get_color_pair_found_double():
     assert colorizer.get_color_pair(color_tag=["a", "b"]) == ("[<", ">]")
 
 
-def test_colorizer_get_color_pair_not_found_with_default():
+def test_colorizer_get_color_pair_not_found_with_default() -> None:
     colorizer = Colorizer(
         {
             "a": ("[", "]"),
@@ -42,7 +42,7 @@ def test_colorizer_get_color_pair_not_found_with_default():
     assert colorizer.get_color_pair(color_tag=["c"]) == ("<", ">")
 
 
-def test_colorizer_get_color_pair_not_found_with_disabled_default():
+def test_colorizer_get_color_pair_not_found_with_disabled_default() -> None:
     colorizer = Colorizer(
         {
             "a": ("[", "]"),
@@ -53,7 +53,7 @@ def test_colorizer_get_color_pair_not_found_with_disabled_default():
     assert colorizer.get_color_pair(color_tag=["c"], use_default=False) == ("", "")
 
 
-def test_colorizer_get_color_pair_found_with_context():
+def test_colorizer_get_color_pair_found_with_context() -> None:
     colorizer = Colorizer(
         {
             "a": ("[", "]"),
@@ -63,7 +63,7 @@ def test_colorizer_get_color_pair_found_with_context():
     assert colorizer.get_color_pair(color_tag=["a"], context_color_tag="b") == ("><[", "]><")
 
 
-def test_colorizer_get_color_pair_found_with_list_context():
+def test_colorizer_get_color_pair_found_with_list_context() -> None:
     colorizer = Colorizer(
         {
             "a": ("[", "]"),
@@ -78,7 +78,7 @@ def test_colorizer_get_color_pair_found_with_list_context():
 
 
 @pytest.mark.parametrize("value", values_various.values())
-def test_colorizer_converts_unknown_types(value):
+def test_colorizer_converts_unknown_types(value) -> None:
     colorizer = Colorizer(
         color_map={
             "a": ("[", "]"),
@@ -89,7 +89,7 @@ def test_colorizer_converts_unknown_types(value):
 
 
 @pytest.mark.parametrize("value", values_various.values())
-def test_colorizer_changes_colorizable_types(value):
+def test_colorizer_changes_colorizable_types(value) -> None:
     colorizer = Colorizer(
         color_map={
             "a": ("[", "]"),
@@ -99,7 +99,7 @@ def test_colorizer_changes_colorizable_types(value):
 
 
 @pytest.mark.parametrize("value", values_various.values())
-def test_colorizer_changes_colorizable_types_with_tags(value):
+def test_colorizer_changes_colorizable_types_with_tags(value) -> None:
     colorizer = Colorizer(
         color_map={
             "a": ("[", "]"),
@@ -112,7 +112,7 @@ def test_colorizer_changes_colorizable_types_with_tags(value):
 
 
 @pytest.mark.parametrize("value", values_various.values())
-def test_colorizer_changes_colorizable_types_with_context(value):
+def test_colorizer_changes_colorizable_types_with_context(value) -> None:
     colorizer = Colorizer(
         color_map={
             "a": ("[", "]"),
@@ -125,7 +125,7 @@ def test_colorizer_changes_colorizable_types_with_context(value):
 
 
 @pytest.mark.parametrize("value", values_various.values())
-def test_colorizer_changes_colorizable_types_with_tags_and_context(value):
+def test_colorizer_changes_colorizable_types_with_tags_and_context(value) -> None:
     colorizer = Colorizer(
         color_map={
             "a": ("[", "]"),
@@ -145,11 +145,11 @@ def test_colorizer_changes_colorizable_types_with_tags_and_context(value):
         "specific_colorizable": ColorizableMixin(color_tag="info"),
     }.values(),
 )
-def test_colorizable_mixin_has_a_color_tag_attribute_for(value):
+def test_colorizable_mixin_has_a_color_tag_attribute_for(value) -> None:
     assert hasattr(value, "color_tag")
 
 
-def test_colorizer_colorizes_with_known_color_tag():
+def test_colorizer_colorizes_with_known_color_tag() -> None:
     colorizer = Colorizer(
         color_map={
             "my_tag": ("START_MARK", "STOP_MARK"),
@@ -171,7 +171,7 @@ def test_colorizer_colorizes_with_known_color_tag():
     )
 
 
-def test_colorizer_colorizes_with_known_color_tag_and_default():
+def test_colorizer_colorizes_with_known_color_tag_and_default() -> None:
     colorizer = Colorizer(
         color_map={
             "my_tag": ("START_MARK", "STOP_MARK"),
@@ -195,7 +195,7 @@ def test_colorizer_colorizes_with_known_color_tag_and_default():
     )
 
 
-def test_colorizer_doesnt_colorize_with_unknown_color_tag():
+def test_colorizer_doesnt_colorize_with_unknown_color_tag() -> None:
     colorizer = Colorizer(
         color_map={
             "my_tag": ("START_MARK", "STOP_MARK"),
@@ -205,7 +205,7 @@ def test_colorizer_doesnt_colorize_with_unknown_color_tag():
     assert ColorizedObject(Mark("hello", "my_unknown_tag"), ("", "")) == result
 
 
-def test_colorizer_colorizes_with_unknown_color_tag_and_default():
+def test_colorizer_colorizes_with_unknown_color_tag_and_default() -> None:
     colorizer = Colorizer(
         color_map={
             "my_tag": ("START_MARK", "STOP_MARK"),
@@ -229,7 +229,7 @@ def test_colorizer_colorizes_with_unknown_color_tag_and_default():
     )
 
 
-def test_colorize_message():
+def test_colorize_message() -> None:
     colorizer = Colorizer(
         color_map={
             "a": ("[", "]"),
@@ -245,7 +245,7 @@ def test_colorize_message():
     assert colorizer.colorize_message(message, *args, **kwargs) == "42-[(42)]_0~([0])"
 
 
-def test_colorize_message_with_context():
+def test_colorize_message_with_context() -> None:
     colorizer = Colorizer(
         color_map={
             "a": ("[", "]"),
@@ -263,35 +263,35 @@ def test_colorize_message_with_context():
 
 
 @pytest.mark.parametrize("value", values_various.values())
-def test_colorized_object_conversion(value):
+def test_colorized_object_conversion(value) -> None:
     assert f"{value}" == f"{ColorizedObject(value)}"
 
 
 @pytest.mark.parametrize("value", values_various.values())
-def test_colorized_object_conversion_with_color_pair(value):
-    assert f"<{value}>" == "{0}".format(ColorizedObject(value, color_pair=("<", ">")))
+def test_colorized_object_conversion_with_color_pair(value) -> None:
+    assert f"<{value}>" == "{}".format(ColorizedObject(value, color_pair=("<", ">")))
 
 
 @pytest.mark.parametrize("value", values_various.values())
-def test_colorized_object_representation(value):
+def test_colorized_object_representation(value) -> None:
     assert repr(value) == repr(ColorizedObject(value))
 
 
 @pytest.mark.parametrize("value", values_various.values())
-def test_colorized_object_representation_with_color_pair(value):
+def test_colorized_object_representation_with_color_pair(value) -> None:
     assert f"<{value!r}>" == repr(ColorizedObject(value, color_pair=("<", ">")))
 
 
 @pytest.mark.parametrize("type_", {int, float, bool})
-def test_colorized_object_cast(type_):
+def test_colorized_object_cast(type_) -> None:
     assert type_() == type_(ColorizedObject(type_()))
 
 
 @pytest.mark.parametrize("type_", {int, float, bool})
-def test_colorized_object_cast_with_color_pair(type_):
+def test_colorized_object_cast_with_color_pair(type_) -> None:
     assert type_() == type_(ColorizedObject(type_(), color_pair=("<", ">")))
 
 
-def test_explicit_unicode_in_python3():
+def test_explicit_unicode_in_python3() -> None:
     assert ColorizedObject("test").__unicode__() == "test"
     assert ColorizedObject("test", color_pair=("<", ">")).__unicode__() == "<test>"

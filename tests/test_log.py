@@ -28,7 +28,7 @@ def create_colorizer(format):
     return result
 
 
-def test_colorizing_formatter_without_a_colorizer():
+def test_colorizing_formatter_without_a_colorizer() -> None:
     formatter = ColorizingFormatter(fmt="%(message)s")
     record = LogRecord(
         name="my_record",
@@ -46,7 +46,7 @@ def test_colorizing_formatter_without_a_colorizer():
     assert formatter.format(record) == "4 + 5 gives 9"
 
 
-def test_colorizing_formatter_without_a_colorizer_mapping():
+def test_colorizing_formatter_without_a_colorizer_mapping() -> None:
     formatter = ColorizingFormatter(fmt="%(message)s")
     record = LogRecord(
         name="my_record",
@@ -60,7 +60,7 @@ def test_colorizing_formatter_without_a_colorizer_mapping():
     assert formatter.format(record) == "4 + 5 gives 9"
 
 
-def test_colorizing_formatter_with_a_colorizer():
+def test_colorizing_formatter_with_a_colorizer() -> None:
     formatter = ColorizingFormatter(fmt="%(message)s")
     record = LogRecord(
         name="my_record",
@@ -92,7 +92,7 @@ def test_colorizing_formatter_with_a_colorizer():
     colorizer.colorize.assert_any_call(9, context_color_tag=None)
 
 
-def test_colorizing_formatter_with_a_colorizer_mapping():
+def test_colorizing_formatter_with_a_colorizer_mapping() -> None:
     formatter = ColorizingFormatter(fmt="%(message)s")
     record = LogRecord(
         name="my_record",
@@ -121,13 +121,13 @@ def test_colorizing_formatter_with_a_colorizer_mapping():
 
 
 @patch("sys.stderr", spec=sys.stderr)
-def test_csh_uses_stderr_as_default(stream):
+def test_csh_uses_stderr_as_default(stream) -> None:
     stream.isatty = lambda: False
     handler = ColorizingStreamHandler()
     assert stream == handler.stream
 
 
-def test_csh_uses_streamwrapper():
+def test_csh_uses_streamwrapper() -> None:
     stream = StringIO()
 
     with patch(
@@ -139,13 +139,13 @@ def test_csh_uses_streamwrapper():
     assert handler.stream is not stream
 
 
-def test_csh_dont_uses_streamwrapper_if_no_color():
+def test_csh_dont_uses_streamwrapper_if_no_color() -> None:
     stream = StringIO()
     handler = ColorizingStreamHandler(stream=stream)
     assert handler.stream is stream
 
 
-def test_csh_format():
+def test_csh_format() -> None:
     colorizer = GenericColorizer(
         color_map={
             "bracket": ("[", "]"),
@@ -186,7 +186,7 @@ def test_csh_format():
     assert not (hasattr(record, "colorizer"))
 
 
-def test_csh_format_with_context():
+def test_csh_format_with_context() -> None:
     colorizer = GenericColorizer(
         color_map={
             "bracket": ("[", "]"),
@@ -233,7 +233,7 @@ def test_csh_format_with_context():
     assert not (hasattr(record, "colorizer"))
 
 
-def test_csh_format_no_color_support():
+def test_csh_format_no_color_support() -> None:
     colorizer = GenericColorizer(
         color_map={
             "bracket": ("[", "]"),
@@ -274,7 +274,7 @@ def test_csh_format_no_color_support():
     assert not (hasattr(record, "colorizer"))
 
 
-def test_csh_format_no_highlighter():
+def test_csh_format_no_highlighter() -> None:
     colorizer = GenericColorizer(
         color_map={
             "bracket": ("[", "]"),
@@ -309,7 +309,7 @@ def test_csh_format_no_highlighter():
     assert not (hasattr(record, "colorizer"))
 
 
-def test_csh_format_no_highlighter_no_color_support():
+def test_csh_format_no_highlighter_no_color_support() -> None:
     colorizer = GenericColorizer(
         color_map={
             "bracket": ("[", "]"),
@@ -344,7 +344,7 @@ def test_csh_format_no_highlighter_no_color_support():
     assert not (hasattr(record, "colorizer"))
 
 
-def test_csh_format_disabled_color_support():
+def test_csh_format_disabled_color_support() -> None:
     colorizer = GenericColorizer(
         color_map={
             "bracket": ("[", "]"),
@@ -391,7 +391,7 @@ def test_csh_format_disabled_color_support():
     )
 
 
-def test_basic_config_add_a_stream_handler():
+def test_basic_config_add_a_stream_handler() -> None:
     logger = logging.Logger("test")
 
     assert logger.handlers == []
@@ -401,7 +401,7 @@ def test_basic_config_add_a_stream_handler():
         assert len(logger.handlers) == 1
 
 
-def test_basic_config_sets_level():
+def test_basic_config_sets_level() -> None:
     logger = logging.Logger("test")
 
     with patch("logging.getLogger", new=lambda: logger):
@@ -409,7 +409,7 @@ def test_basic_config_sets_level():
         assert logger.level == logging.DEBUG
 
 
-def test_basic_config_sets_format():
+def test_basic_config_sets_format() -> None:
     logger = logging.Logger("test")
 
     with patch("logging.getLogger", new=lambda: logger):
