@@ -17,10 +17,9 @@ from chromalog.log import ColorizingStreamHandler
 from chromalog.mark import Mark
 
 
-def create_colorizer(format):
-    # TODO: replace, transform
+def create_colorizer(format_):
     def colorize(obj, context_color_tag=None):
-        return format % obj
+        return format_ % obj
 
     result = MagicMock(spec=GenericColorizer)
     result.colorize = MagicMock(side_effect=colorize)
@@ -78,7 +77,7 @@ def test_colorizing_formatter_with_a_colorizer() -> None:
     setattr(
         record,
         ColorizingStreamHandler._RECORD_ATTRIBUTE_NAME,
-        create_colorizer(format="[%s]"),
+        create_colorizer(format_="[%s]"),
     )
 
     assert formatter.format(record) == "[4] + [5] gives [9]"
@@ -106,7 +105,7 @@ def test_colorizing_formatter_with_a_colorizer_mapping() -> None:
     setattr(
         record,
         ColorizingStreamHandler._RECORD_ATTRIBUTE_NAME,
-        create_colorizer(format="[%s]"),
+        create_colorizer(format_="[%s]"),
     )
 
     assert formatter.format(record) == "[4] + [5] gives [9]"
@@ -413,5 +412,5 @@ def test_basic_config_sets_format() -> None:
     logger = logging.Logger("test")
 
     with patch("logging.getLogger", new=lambda: logger):
-        basicConfig(format="my format")
-        assert logger.handlers[0].formatter._fmt == "my format"
+        basicConfig(format="%(message)s my format")
+        assert logger.handlers[0].formatter._fmt == "%(message)s my format"

@@ -11,6 +11,7 @@ T = TypeVar("T", default=str)
 
 class Mark(ColorizableMixin, Generic[T]):
     """Wraps any object and mark it for colored output."""
+    obj: T
 
     def __init__(self, obj: Self | T, color_tag: str | list[str]) -> None:
         """

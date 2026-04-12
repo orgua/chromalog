@@ -21,7 +21,6 @@ def test_string_rendering_of_marked(value) -> None:
 def test_int_rendering_of_marked(value) -> None:
     assert "%d" % value == "%d" % iMark(value, "a")
     assert f"{value}" == f"{iMark(value, 'a')}"
-    # TODO: repair, mark does not behave like int
 
 
 @pytest.mark.parametrize("value", values_integral.values())
@@ -37,7 +36,6 @@ def test_hexadecimal_int_rendering_of_marked(value) -> None:
 def test_float_rendering_of_marked(value) -> None:
     assert "%f" % value == "%f" % fMark(value, "a")
     assert f"{value}" == f"{fMark(value, 'a')}"
-    # TODO: repair, mark does not behave like int
 
 
 @pytest.mark.parametrize("value", values_various.values())
