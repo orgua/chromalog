@@ -101,6 +101,7 @@ class GenericColorizer(ABC):
     A class responsible for colorizing log entries and
     :class:`chromalog.important.Important` objects.
     """
+
     default_color_map: dict
 
     def __init__(self, color_map=None, default_color_tag=None) -> None:
