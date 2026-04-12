@@ -1,6 +1,4 @@
-"""
-Mark log entries.
-"""
+"""Mark log entries."""
 
 from typing import Generic
 from typing import Self
@@ -12,9 +10,7 @@ T = TypeVar("T", default=str)
 
 
 class Mark(ColorizableMixin, Generic[T]):
-    """
-    Wraps any object and mark it for colored output.
-    """
+    """Wraps any object and mark it for colored output."""
 
     def __init__(self, obj: Self | T, color_tag: str | list[str]) -> None:
         """
@@ -71,9 +67,7 @@ class Mark(ColorizableMixin, Generic[T]):
         return str(self.obj)
 
     def __unicode__(self) -> str:
-        """
-        Gives a string representation of the marked object.
-        """
+        """Gives a string representation of the marked object."""
         return str(self.obj)
 
     def __int__(self) -> int:

@@ -1,6 +1,4 @@
-"""
-Log-related functions and structures.
-"""
+"""Log-related functions and structures."""
 
 import logging
 import sys
@@ -15,9 +13,7 @@ from .stream import stream_has_color_support
 
 
 class ColorizingFormatter(logging.Formatter):
-    """
-    A formatter that colorize its output.
-    """
+    """A formatter that colorize its output."""
 
     @contextmanager
     def _patch_record(self, record, colorizer, message_color_tag):
@@ -25,10 +21,10 @@ class ColorizingFormatter(logging.Formatter):
 
         if colorizer:
             if isinstance(record.args, dict):
-                record.args = dict(
-                    (k, colorizer.colorize(v, context_color_tag=message_color_tag))
+                record.args = {
+                    k: colorizer.colorize(v, context_color_tag=message_color_tag)
                     for k, v in record.args.items()
-                )
+                }
             else:
                 record.args = tuple(
                     map(
@@ -81,9 +77,7 @@ class ColorizingFormatter(logging.Formatter):
 
 
 class ColorizingStreamHandler(logging.StreamHandler):
-    """
-    A stream handler that colorize its output.
-    """
+    """A stream handler that colorize its output."""
 
     _RECORD_ATTRIBUTE_NAME = "colorizer"
     default_attributes_map = {
@@ -98,7 +92,7 @@ class ColorizingStreamHandler(logging.StreamHandler):
         colorizer=None,
         highlighter=None,
         attributes_map=None,
-    ):
+    ) -> None:
         """
         Initializes a colorizing stream handler.
 
@@ -151,9 +145,7 @@ class ColorizingStreamHandler(logging.StreamHandler):
         return color_tag.format(**record.__dict__)
 
     def format(self, record):
-        """
-        Format a `LogRecord` and prints it to the associated stream.
-        """
+        """Format a `LogRecord` and prints it to the associated stream."""
         with self.__bind_to_record(record):
             for attribute, color_tag in self.attributes_map.items():
                 if attribute == "message":

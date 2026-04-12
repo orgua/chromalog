@@ -1,6 +1,4 @@
-"""
-Colorizing functions and structures.
-"""
+"""Colorizing functions and structures."""
 
 from colorama import Back
 from colorama import Fore
@@ -8,11 +6,9 @@ from colorama import Style
 
 
 class ColorizableMixin:
-    """
-    Make an object colorizable by a colorizer.
-    """
+    """Make an object colorizable by a colorizer."""
 
-    def __init__(self, color_tag=None):
+    def __init__(self, color_tag=None) -> None:
         """
         Initialize a colorizable instance.
 
@@ -25,11 +21,9 @@ class ColorizableMixin:
 
 
 class ColorizedObject:
-    """
-    Wraps any object to colorize it.
-    """
+    """Wraps any object to colorize it."""
 
-    def __init__(self, obj, color_pair=None):
+    def __init__(self, obj, color_pair=None) -> None:
         """
         Initialize the colorized object.
 
@@ -40,46 +34,34 @@ class ColorizedObject:
         self.obj = obj
         self.color_pair = color_pair
 
-    def __repr__(self):
-        """
-        Gives a representation of the colorized object.
-        """
+    def __repr__(self) -> str:
+        """Gives a representation of the colorized object."""
         if not self.color_pair:
             return repr(self.obj)
         return f"{self.color_pair[0]}{self.obj!r}{self.color_pair[1]}"
 
-    def __str__(self):
-        """
-        Gives a string representation of the colorized object.
-        """
+    def __str__(self) -> str:
+        """Gives a string representation of the colorized object."""
         if not self.color_pair:
             return str(self.obj)
         return f"{self.color_pair[0]}{self.obj}{self.color_pair[1]}"
 
     def __unicode__(self):
-        """
-        Gives a string representation of the colorized object.
-        """
+        """Gives a string representation of the colorized object."""
         if not self.color_pair:
             return str(self.obj)
         return f"{self.color_pair[0]}{self.obj}{self.color_pair[1]}"
 
-    def __int__(self):
-        """
-        Gives an integer representation of the colorized object.
-        """
+    def __int__(self) -> int:
+        """Gives an integer representation of the colorized object."""
         return int(self.obj)
 
-    def __float__(self):
-        """
-        Gives a float representation of the colorized object.
-        """
+    def __float__(self) -> float:
+        """Gives a float representation of the colorized object."""
         return float(self.obj)
 
-    def __bool__(self):
-        """
-        Gives a boolean representation of the colorized object.
-        """
+    def __bool__(self) -> bool:
+        """Gives a boolean representation of the colorized object."""
         return bool(self.obj)
 
     def __eq__(self, other):
@@ -110,6 +92,7 @@ class ColorizedObject:
         """
         if isinstance(other, self.__class__):
             return other.obj == self.obj and other.color_pair == self.color_pair
+        return False
 
 
 class GenericColorizer:
@@ -118,7 +101,7 @@ class GenericColorizer:
     :class:`chromalog.important.Important` objects.
     """
 
-    def __init__(self, color_map=None, default_color_tag=None):
+    def __init__(self, color_map=None, default_color_tag=None) -> None:
         """
         Initialize a new colorizer with a specified `color_map`.
 
@@ -166,7 +149,7 @@ class GenericColorizer:
             )
 
             if ctx_pair:
-                pairs = [ctx_pair[::-1], ctx_pair] + pairs
+                pairs = [ctx_pair[::-1], ctx_pair, *pairs]
 
         return (
             "".join(x[0] for x in pairs),
@@ -215,10 +198,10 @@ class GenericColorizer:
         """
         context_color_tag = getattr(message, "color_tag", None)
         args = [self.colorize(arg, context_color_tag=context_color_tag) for arg in args]
-        kwargs = dict(
-            (key, self.colorize(value, context_color_tag=context_color_tag))
+        kwargs = {
+            key: self.colorize(value, context_color_tag=context_color_tag)
             for key, value in kwargs.items()
-        )
+        }
         if context_color_tag:
             return str(
                 self.colorize(
@@ -230,9 +213,7 @@ class GenericColorizer:
 
 
 class Colorizer(GenericColorizer):
-    """
-    Colorize log entries.
-    """
+    """Colorize log entries."""
 
     default_color_map = {
         "debug": (Style.DIM + Fore.CYAN, Style.RESET_ALL),

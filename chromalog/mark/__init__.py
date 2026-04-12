@@ -1,6 +1,4 @@
-"""
-Marking classes and methods.
-"""
+"""Marking classes and methods."""
 
 from .objects import Mark
 from .objects import fMark

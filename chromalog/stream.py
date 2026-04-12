@@ -1,6 +1,4 @@
-"""
-Stream utilities.
-"""
+"""Stream utilities."""
 
 
 def stream_has_color_support(stream):

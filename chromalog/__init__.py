@@ -1,6 +1,4 @@
-"""
-Enhance Python logging with colors.
-"""
+"""Enhance Python logging with colors."""
 
 import logging
 
@@ -14,7 +12,7 @@ def basicConfig(
     level=None,
     stream=None,
     colorizer=None,
-):
+) -> None:
     """
     Does basic configuration for the logging system by creating a
     :class:`chromalog.log.ColorizingStreamHandler` with a default

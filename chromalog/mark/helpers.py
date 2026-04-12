@@ -1,6 +1,4 @@
-"""
-Automatically generate marking helpers functions.
-"""
+"""Automatically generate marking helpers functions."""
 
 import sys
 
@@ -13,7 +11,7 @@ class SimpleHelpers:
     generation.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.__helpers = {}
 
     def make_helper(self, color_tag):
@@ -72,7 +70,7 @@ class ConditionalHelpers:
     generation.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.__helpers = {}
 
     def make_helper(self, color_tag_true, color_tag_false):
@@ -98,7 +96,7 @@ class ConditionalHelpers:
                     color_tag=color_tag_true if condition else color_tag_false,
                 )
 
-            helper.__name__ = "_or_".join((color_tag_true, color_tag_false))
+            helper.__name__ = f"{color_tag_true}_or_{color_tag_false}"
             helper.__doc__ = f"""
             Convenience helper method that marks an object with the
             {color_tag_true!r} color tag if `condition` is truthy, and with the
@@ -178,5 +176,5 @@ Pseudo-module that generates conditional helpers.
 See :class:`ConditionalHelpers<chromalog.mark.helpers.ConditionalHelpers>`.
 """
 
-sys.modules[".".join([__name__, "simple"])] = simple
-sys.modules[".".join([__name__, "conditional"])] = conditional
+sys.modules[f"{__name__}.simple"] = simple
+sys.modules[f"{__name__}.conditional"] = conditional
