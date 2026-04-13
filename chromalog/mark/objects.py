@@ -6,10 +6,11 @@ from typing import TypeVar
 
 from chromalog.colorizer import ColorizableMixin
 
-T = TypeVar("T", default=str)
+T = TypeVar("T")
+# TODO: 'default=str' is available is py313, this would allow to rename GenericMark back to Mark
 
 
-class Mark(ColorizableMixin, Generic[T]):
+class GenericMark(ColorizableMixin, Generic[T]):
     """Wraps any object and mark it for colored output."""
 
     obj: T
@@ -119,5 +120,6 @@ class Mark(ColorizableMixin, Generic[T]):
 
 
 # offer default specialized types
-fMark = Mark[float]
-iMark = Mark[int]
+Mark = GenericMark[str]
+fMark = GenericMark[float]
+iMark = GenericMark[int]

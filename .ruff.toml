@@ -22,7 +22,6 @@ ignore = [
     "D102",
     "DOC201", "DOC402", "DOC501",
 ]
-exclude = ["extra/link-visualizer/create_link_svg.py"]  # must be adapted to project first
 
 [lint.per-file-ignores]
 "tests/**" = ["ARG", "S", "D", "T201", "ERA001",]

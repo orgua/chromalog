@@ -58,12 +58,8 @@ copyright = "2015, Julien Kauffmann"
 # built documents.
 #
 # The short X.Y version.
-version = (
-    (Path(__file__).parent.parent / "VERSION").open(encoding="utf-8")
-    .read()
-    .strip()
-)
-
+version = (Path(__file__).parent.parent / "VERSION").open(encoding="utf-8").read().strip()
+# TODO: update, maybe query from importlib? as version is only in pyproject.toml now
 # The full version, including alpha/beta/rc tags.
 release = version
 

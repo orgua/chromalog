@@ -92,7 +92,7 @@ shepherd-data = { path = "./shepherd_data", editable = true}
 source = ["chromalog"]
 
 [tool.ty.environment]
-root = ["./shepherd_core", "./shepherd_data", "./extra", "./scratch"]
+root = ["./chromalog", ]
 # TODO: renaming dirs could 'repair' autodiscovery
 
 [tool.ty.terminal]
@@ -100,8 +100,8 @@ output-format = "concise"
 
 [tool.ty.src]
 exclude = [
-    "*/tests/**",
-    "*/examples/**",  # temporary until specific rules can be disabled
+    "tests/**",
+    "examples/**",  # temporary until specific rules can be disabled
 ]
 
 [tool.ty.rules]
