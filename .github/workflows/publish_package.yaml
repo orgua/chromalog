@@ -1,0 +1,48 @@
+name: Publish Package to PyPi
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+  push:
+    tags:
+      - 'v*.*.*'
+    # branches: [ main ]  # handled as OR! (push to main OR tagged)
+
+permissions:
+  contents: read
+
+jobs:
+
+  publish-core:
+    # if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/shepherd-core
+    permissions:
+      id-token: write
+    strategy:
+      matrix:
+        python-version: ["3.14"]
+
+    steps:
+
+      - name: Checkout 🛎️
+        uses: actions/checkout@v6
+
+      - name: Install uv 🔧 & set up Python 🐍
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+          enable-cache: false
+          activate-environment: true
+
+      - name: Build core-package 🧱
+        run: uv build --clear
+        working-directory: "./shepherd_core"
+
+      - name: Publish core-package 🥳
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: shepherd_core/dist/
