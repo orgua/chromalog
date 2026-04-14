@@ -3,12 +3,12 @@
 from typing import Any
 from typing import ClassVar
 from typing import TypedDict
-from typing import Unpack
 
 from colorama import Back
 from colorama import Fore
 from colorama import Style
 from typing_extensions import Self
+from typing_extensions import Unpack
 
 
 class ColorizableMixin:
