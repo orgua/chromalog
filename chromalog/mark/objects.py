@@ -1,8 +1,9 @@
 """Mark log entries."""
 
 from typing import Generic
-from typing import Self
 from typing import TypeVar
+
+from typing_extensions import Self
 
 from chromalog.colorizer import ColorizableMixin
 

@@ -30,7 +30,10 @@ classifiers = [
 
 requires-python = ">=3.10"
 
-dependencies = ["colorama>=0.3.7"]
+dependencies = [
+    "colorama>=0.3.7",
+    "typing-extensions",
+]
 
 [project.optional-dependencies]
 dev = [
