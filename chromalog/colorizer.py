@@ -1,5 +1,10 @@
 """Colorizing functions and structures."""
-from abc import ABC
+
+from typing import Any
+from typing import ClassVar
+from typing import Self
+from typing import TypedDict
+from typing import Unpack
 
 from colorama import Back
 from colorama import Fore
@@ -9,7 +14,7 @@ from colorama import Style
 class ColorizableMixin:
     """Make an object colorizable by a colorizer."""
 
-    def __init__(self, color_tag=None) -> None:
+    def __init__(self, color_tag: str | None = None) -> None:
         """
         Initialize a colorizable instance.
 
@@ -24,7 +29,7 @@ class ColorizableMixin:
 class ColorizedObject:
     """Wraps any object to colorize it."""
 
-    def __init__(self, obj, color_pair=None) -> None:
+    def __init__(self, obj, color_pair: tuple[str, str] | None = None) -> None:
         """
         Initialize the colorized object.
 
@@ -36,38 +41,38 @@ class ColorizedObject:
         self.color_pair = color_pair
 
     def __repr__(self) -> str:
-        """Gives a representation of the colorized object."""
+        """Give a representation of the colorized object."""
         if not self.color_pair:
             return repr(self.obj)
         return f"{self.color_pair[0]}{self.obj!r}{self.color_pair[1]}"
 
     def __str__(self) -> str:
-        """Gives a string representation of the colorized object."""
+        """Give a string representation of the colorized object."""
         if not self.color_pair:
             return str(self.obj)
         return f"{self.color_pair[0]}{self.obj}{self.color_pair[1]}"
 
-    def __unicode__(self):
-        """Gives a string representation of the colorized object."""
+    def __unicode__(self) -> str:
+        """Give a string representation of the colorized object."""
         if not self.color_pair:
             return str(self.obj)
         return f"{self.color_pair[0]}{self.obj}{self.color_pair[1]}"
 
     def __int__(self) -> int:
-        """Gives an integer representation of the colorized object."""
+        """Give an integer representation of the colorized object."""
         return int(self.obj)
 
     def __float__(self) -> float:
-        """Gives a float representation of the colorized object."""
+        """Give a float representation of the colorized object."""
         return float(self.obj)
 
     def __bool__(self) -> bool:
-        """Gives a boolean representation of the colorized object."""
+        """Give a boolean representation of the colorized object."""
         return bool(self.obj)
 
-    def __eq__(self, other):
+    def __eq__(self, other: Self) -> bool:
         """
-        Compares this colorized object with another.
+        Compare this colorized object with another.
 
         :param other: The other instance to compare with.
         :returns: True if `other` is a
@@ -96,15 +101,16 @@ class ColorizedObject:
         return False
 
 
-class GenericColorizer(ABC):
+class GenericColorizer:
     """
-    A class responsible for colorizing log entries and
-    :class:`chromalog.important.Important` objects.
+    A class responsible for colorizing log entries and :class:`chromalog.important.Important` objects.
     """
 
-    default_color_map: dict
+    default_color_map: ClassVar[dict[str, tuple]] = {}
 
-    def __init__(self, color_map=None, default_color_tag=None) -> None:
+    def __init__(
+        self, color_map: dict[str, tuple] | None = None, default_color_tag: str | None = None
+    ) -> None:
         """
         Initialize a new colorizer with a specified `color_map`.
 
@@ -119,13 +125,13 @@ class GenericColorizer(ABC):
 
     def get_color_pair(
         self,
-        color_tag,
-        context_color_tag=None,
-        use_default=True,
-    ):
+        color_tag: str | list[str],  # TODO: rename to tags?
+        context_color_tag: str | list[str] | None = None,
+        *,
+        use_default: bool = True,
+    ) -> tuple[str, str]:
         """
-        Get the color pairs for the specified `color_tag` and
-        `context_color_tag`.
+        Get the color pairs for the specified `color_tag` and `context_color_tag`.
 
         :param color_tag: A list of color tags.
         :param context_color_tag: A list of color tags to use as a context.
@@ -134,8 +140,8 @@ class GenericColorizer(ABC):
             map.
         :returns: A pair of color sequences.
         """
-        if isinstance(color_tag, str):
-            color_tag = [color_tag]
+        if not isinstance(color_tag, list):
+            color_tag = [color_tag] if isinstance(color_tag, str) else []
 
         pairs = list(filter(None, (self.color_map.get(tag) for tag in color_tag)))
 
@@ -159,7 +165,12 @@ class GenericColorizer(ABC):
             "".join(x[1] for x in reversed(pairs)),
         )
 
-    def colorize(self, obj, color_tag=None, context_color_tag=None):
+    def colorize(
+        self,
+        obj,
+        color_tag: str | list[str] | None = None,
+        context_color_tag: str | list[str] | None = None,
+    ) -> ColorizedObject:
         """
         Colorize an object.
 
@@ -169,6 +180,7 @@ class GenericColorizer(ABC):
         :param context_color_tag: The color tag to use as context.
         :returns: ``obj`` if ``obj`` is not a colorizable object. A colorized
             string otherwise.
+            TODO: described output not correct
 
         .. note: A colorizable object must have a truthy-``color_tag``
             attribute.
@@ -185,7 +197,17 @@ class GenericColorizer(ABC):
 
         return ColorizedObject(obj=obj, color_pair=color_pair)
 
-    def colorize_message(self, message, *args, **kwargs):
+    def colorized_str(
+        self,
+        obj,
+        color_tag: str | list[str] | None = None,
+        context_color_tag: str | list[str] | None = None,
+    ):
+        return str(self.colorize(obj, color_tag, context_color_tag))
+
+    def colorize_message(
+        self, message: str | ColorizedObject, *args: dict[str, Any], **kwargs: Unpack[TypedDict]
+    ) -> str:
         """
         Colorize a message.
 
@@ -200,17 +222,17 @@ class GenericColorizer(ABC):
             stream that the resulting string might be printed to.
         """
         context_color_tag = getattr(message, "color_tag", None)
-        args = [self.colorize(arg, context_color_tag=context_color_tag) for arg in args]
+        args = [self.colorized_str(arg, context_color_tag=context_color_tag) for arg in args]
         kwargs = {
-            key: self.colorize(value, context_color_tag=context_color_tag)
+            key: self.colorized_str(value, context_color_tag=context_color_tag)
             for key, value in kwargs.items()
         }
+        # TODO: this can be wrong when message expects i.e. %f but gets %s
+        # TODO: add tests for these
         if context_color_tag:
-            return str(
-                self.colorize(
-                    str(message).format(*args, **kwargs),
-                    color_tag=context_color_tag,
-                )
+            return self.colorized_str(
+                str(message).format(*args, **kwargs),
+                color_tag=context_color_tag,
             )
         return message.format(*args, **kwargs)
 
@@ -218,7 +240,7 @@ class GenericColorizer(ABC):
 class Colorizer(GenericColorizer):
     """Colorize log entries."""
 
-    default_color_map = {
+    default_color_map: ClassVar[dict[str, tuple]] = {
         "debug": (Style.DIM + Fore.CYAN, Style.RESET_ALL),
         "info": (Style.RESET_ALL, Style.RESET_ALL),
         "important": (Style.BRIGHT, Style.RESET_ALL),
@@ -230,11 +252,12 @@ class Colorizer(GenericColorizer):
 
 
 class MonochromaticColorizer(Colorizer):
-    """
+    """Colorize log entries on non-color-capable streams.
+
     Monochromatic colorizer for non-color-capable streams that only highlights
     :class:`chromalog.mark.Mark` objects with an ``important`` color tag.
     """
 
-    default_color_map = {
+    default_color_map: ClassVar[dict[str, tuple]] = {
         "important": ("**", "**"),
     }

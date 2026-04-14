@@ -2,12 +2,16 @@
 
 import logging
 import sys
+from collections.abc import Generator
 from contextlib import contextmanager
 from functools import partial
+from logging import LogRecord
+from typing import Any
 
 from colorama import AnsiToWin32
 
 from .colorizer import Colorizer
+from .colorizer import GenericColorizer
 from .mark.objects import Mark
 from .stream import stream_has_color_support
 
@@ -16,7 +20,12 @@ class ColorizingFormatter(logging.Formatter):
     """A formatter that colorize its output."""
 
     @contextmanager
-    def _patch_record(self, record, colorizer, message_color_tag):
+    def _patch_record(
+        self,
+        record: LogRecord,
+        colorizer: GenericColorizer,
+        message_color_tag: str | list[str] | None,
+    ) -> Generator[None, Any, None]:
         save_dict = record.__dict__.copy()
 
         if colorizer:
@@ -35,17 +44,17 @@ class ColorizingFormatter(logging.Formatter):
                         record.args,
                     )
                 )
-            record.filename = colorizer.colorize(record.filename)
-            record.funcName = colorizer.colorize(record.funcName)
-            record.levelname = colorizer.colorize(record.levelname)
-            record.module = colorizer.colorize(record.module)
-            record.name = colorizer.colorize(record.name)
-            record.pathname = colorizer.colorize(record.pathname)
-            record.processName = colorizer.colorize(record.processName)
-            record.threadName = colorizer.colorize(record.threadName)
+            record.filename = colorizer.colorized_str(record.filename)
+            record.funcName = colorizer.colorized_str(record.funcName)
+            record.levelname = colorizer.colorized_str(record.levelname)
+            record.module = colorizer.colorized_str(record.module)
+            record.name = colorizer.colorized_str(record.name)
+            record.pathname = colorizer.colorized_str(record.pathname)
+            record.processName = colorizer.colorized_str(record.processName)
+            record.threadName = colorizer.colorized_str(record.threadName)
 
             if message_color_tag:
-                message = colorizer.colorize(
+                message = colorizer.colorized_str(
                     Mark(
                         record.getMessage(),
                         color_tag=message_color_tag,
