@@ -412,5 +412,5 @@ def test_basic_config_sets_format() -> None:
     logger = logging.Logger("test")
 
     with patch("logging.getLogger", new=lambda: logger):
-        basicConfig(format="%(message)s my format")
+        basicConfig(fmt="%(message)s my format")
         assert logger.handlers[0].formatter._fmt == "%(message)s my format"

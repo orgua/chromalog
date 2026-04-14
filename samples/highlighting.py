@@ -6,7 +6,7 @@ from chromalog.mark.helpers.simple import success
 
 import chromalog
 
-chromalog.basicConfig(format="%(message)s", level=logging.INFO)
+chromalog.basicConfig(fmt="%(message)s", level=logging.INFO)
 logger = logging.getLogger()
 
 filename = r"/var/lib/status"
