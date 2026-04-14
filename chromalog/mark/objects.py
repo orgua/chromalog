@@ -8,6 +8,7 @@ from chromalog.colorizer import ColorizableMixin
 
 T = TypeVar("T")
 # TODO: 'default=str' is available is py313, this would allow to rename GenericMark back to Mark
+# TODO: This new generic approach is beside the point?!? better save the type & KISS
 
 
 class GenericMark(ColorizableMixin, Generic[T]):
@@ -41,10 +42,10 @@ class GenericMark(ColorizableMixin, Generic[T]):
         >>> Mark(Mark(42, "c"), ["a", "b"]) == Mark(42, ["a", "b", "c"])
         True
         """
-        if isinstance(color_tag, str):
-            color_tag = [color_tag]
+        if not isinstance(color_tag, list):
+            color_tag = [color_tag] if isinstance(color_tag, str) else []
 
-        if isinstance(obj, Mark):
+        if isinstance(obj, self.__class__):
             color_tag.extend(obj.color_tag)
             obj = obj.obj
 
